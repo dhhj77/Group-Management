@@ -437,7 +437,7 @@
             <input type="month" id="sunday-month-picker" onchange="renderSundayAttendanceTable()" style="max-width:140px;font-weight:700;text-align:center;font-size:12px;padding:4px 6px">
             <button type="button" class="btn-dark" onclick="shiftPickerMonth('sunday-month-picker', 1)">▶</button>
           </div>
-          <button type="button" class="btn-emerald" onclick="exportSundayImage()" style="font-size:11px;padding:5px 9px">📸 이미지 저장</button>
+          <button type="button" class="btn-emerald" onclick="exportSundayImage(this)" style="font-size:11px;padding:5px 9px">📸 이미지 저장</button>
         </div>
         <p>주일마다 정식(인증함/안함/오류) ~ 결석을 체크합니다. (좌측 이름 열 고정)</p>
       </div>
@@ -481,7 +481,7 @@
           <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
             <button type="button" class="btn-emerald" onclick="markAllPaid('sports', '3,000원')" style="font-size:10.5px;padding:4px 7px">체육 완납</button>
             <button type="button" class="btn-indigo" onclick="markAllPaid('welfare', '1,000원')" style="font-size:10.5px;padding:4px 7px">복지 완납</button>
-            <button type="button" class="btn-emerald" onclick="exportOfferingImage()" style="font-size:11px;padding:5px 9px">📸 이미지 저장</button>
+            <button type="button" class="btn-emerald" onclick="exportOfferingImage(this)" style="font-size:11px;padding:5px 9px">📸 이미지 저장</button>
           </div>
         </div>
         <p>십일조, 청년회비(2만), 체육회비(3천), 후생복지(1천), 건축헌금 현황을 체크합니다.</p>
@@ -953,6 +953,23 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- 모달: 이미지 다운로드 / 앨범 저장 -->
+  <div id="image-preview-modal" class="modal-backdrop hidden">
+    <div class="modal-card" style="text-align:center">
+      <h3 style="font-size:16px;font-weight:800;color:#1e293b;margin-bottom:6px">📸 현황판 이미지 준비 완료!</h3>
+      <p style="font-size:12px;color:#64748b;margin-bottom:12px">
+        스마트폰에서는 <strong>아래 이미지를 꾹 길게 누르신 후 [사진에 저장]</strong>을 누르시면 앨범에 저장됩니다.
+      </p>
+      <div style="max-height:55vh;overflow-y:auto;border-radius:10px;border:1px solid #e2e8f0;margin-bottom:14px;padding:4px;background:#f8fafc">
+        <img id="image-preview-img" src="" alt="현황판 이미지" style="width:100%;height:auto;display:block;border-radius:6px">
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <a id="image-preview-download-link" href="#" download="" class="btn-primary" style="text-decoration:none;font-size:12px;padding:8px 16px">⬇️ 파일 다운로드</a>
+        <button type="button" class="btn-dark" onclick="closeImagePreviewModal()" style="font-size:12px;padding:8px 16px">닫기</button>
+      </div>
     </div>
   </div>
 
@@ -1640,41 +1657,110 @@
       if (btn) btn.textContent = isOpening ? '명부 접기 ▴' : '명부 보기 ▾';
     };
 
-    // --- 주일예배 및 헌금 현황 이미지(PNG) 다운로드 기능 ---
-    window.exportSundayImage = async function() {
+    // --- 모바일 앨범 저장 & 웹 공유 & 다운로드 통합 함수 ---
+    async function saveOrShareCanvas(canvas, filename, btn) {
+      const origText = btn ? btn.textContent : '';
+      if (btn) { btn.textContent = '⏳ 이미지 생성중...'; btn.disabled = true; }
+
+      try {
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            alert('이미지 생성에 실패했습니다.');
+            if (btn) { btn.textContent = origText; btn.disabled = false; }
+            return;
+          }
+
+          const file = new File([blob], filename, { type: 'image/png' });
+          const url = URL.createObjectURL(blob);
+
+          // 1) 스마트폰 네이티브 공유창 (iOS/Android 사진 앨범 및 파일 저장 바로 연결)
+          let shared = false;
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: filename,
+                text: `${filename} 현황판`
+              });
+              shared = true;
+            } catch (err) {
+              // 사용자가 공유창을 닫은 경우 프리뷰 모달로 계속 지원
+              console.log('Share dismissed or cancelled', err);
+            }
+          }
+
+          // 2) 공유를 지원하지 않거나 닫은 경우: 다운로드 시도 + 롱프레스 모달 지원
+          if (!shared) {
+            const a = document.createElement('a');
+            a.download = filename;
+            a.href = url;
+            a.click();
+            openImagePreviewModal(url, filename);
+          }
+
+          if (btn) { btn.textContent = origText; btn.disabled = false; }
+        }, 'image/png');
+      } catch (e) {
+        alert('이미지 처리 중 오류가 발생했습니다: ' + e.message);
+        if (btn) { btn.textContent = origText; btn.disabled = false; }
+      }
+    }
+
+    window.openImagePreviewModal = function(url, filename) {
+      const modal = document.getElementById('image-preview-modal');
+      const img = document.getElementById('image-preview-img');
+      const link = document.getElementById('image-preview-download-link');
+      if (!modal || !img) return;
+      img.src = url;
+      if (link) { link.href = url; link.download = filename; }
+      modal.classList.remove('hidden');
+    };
+
+    window.closeImagePreviewModal = function() {
+      const modal = document.getElementById('image-preview-modal');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    window.exportSundayImage = async function(btn) {
       const target = document.getElementById('sec-sunday');
       if (!target) return;
       if (typeof html2canvas === 'undefined') {
         alert('이미지 생성 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
         return;
       }
+      const scrollBox = target.querySelector('.table-responsive');
+      const origOverflow = scrollBox ? scrollBox.style.overflow : '';
+      if (scrollBox) scrollBox.style.overflow = 'visible';
+
       try {
         const ym = document.getElementById('sunday-month-picker')?.value || '2026-10';
         const canvas = await html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-        const a = document.createElement('a');
-        a.download = `주일예배_출석현황_${ym}.png`;
-        a.href = canvas.toDataURL('image/png');
-        a.click();
+        if (scrollBox) scrollBox.style.overflow = origOverflow;
+        await saveOrShareCanvas(canvas, `주일예배_출석현황_${ym}.png`, btn);
       } catch (err) {
+        if (scrollBox) scrollBox.style.overflow = origOverflow;
         alert('이미지 저장 중 오류가 발생했습니다: ' + err.message);
       }
     };
 
-    window.exportOfferingImage = async function() {
+    window.exportOfferingImage = async function(btn) {
       const target = document.getElementById('sec-offering');
       if (!target) return;
       if (typeof html2canvas === 'undefined') {
         alert('이미지 생성 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
         return;
       }
+      const scrollBox = target.querySelector('.table-responsive');
+      const origOverflow = scrollBox ? scrollBox.style.overflow : '';
+      if (scrollBox) scrollBox.style.overflow = 'visible';
+
       try {
         const ym = document.getElementById('offering-month-picker')?.value || '2026-10';
         const canvas = await html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-        const a = document.createElement('a');
-        a.download = `월별_헌금현황_${ym}.png`;
-        a.href = canvas.toDataURL('image/png');
-        a.click();
+        if (scrollBox) scrollBox.style.overflow = origOverflow;
+        await saveOrShareCanvas(canvas, `월별_헌금현황_${ym}.png`, btn);
       } catch (err) {
+        if (scrollBox) scrollBox.style.overflow = origOverflow;
         alert('이미지 저장 중 오류가 발생했습니다: ' + err.message);
       }
     };
