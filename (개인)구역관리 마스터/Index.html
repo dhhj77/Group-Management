@@ -134,14 +134,19 @@
     .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; text-align:center; }
     @media(min-width:640px) { .calendar-grid { gap:4px; } }
     .calendar-day-name { font-size:11px; font-weight:700; color:var(--muted); padding:4px 0; }
-    .calendar-cell { min-height:60px; background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:3px; display:flex; flex-direction:column; align-items:flex-start; overflow:hidden; }
-    @media(min-width:640px) { .calendar-cell { min-height:70px; padding:4px; border-radius:8px; } }
+    .calendar-cell { min-height:60px; height:auto; background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:3px; display:flex; flex-direction:column; align-items:stretch; overflow:visible; }
+    @media(min-width:640px) { .calendar-cell { min-height:75px; padding:4px; border-radius:8px; } }
     .calendar-cell.other-month { background:#f1f5f9; opacity:0.45; }
-    .calendar-date-num { font-size:10px; font-weight:700; color:#334155; margin-bottom:2px; }
+    .calendar-date-num { font-size:10px; font-weight:700; color:#334155; margin-bottom:2px; text-align:left; }
     
     .calendar-event-pill {
-      font-size:9px; font-weight:700; padding:2px 4px; border-radius:4px; margin-bottom:2px;
-      width:100%; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;
+      font-size:9px; font-weight:700; line-height:1.25; padding:2px 3px; border-radius:4px; margin-bottom:2px;
+      width:100%; text-align:left; white-space:normal; word-break:break-all; overflow-wrap:anywhere; cursor:pointer; box-sizing:border-box;
+    }
+    @media(max-width:640px) {
+      .calendar-grid { gap:2px; }
+      .calendar-cell { padding:2px; min-height:56px; }
+      .calendar-event-pill { font-size:8.5px; line-height:1.2; padding:1.5px 2px; letter-spacing:-0.4px; }
     }
     /* 회원 일정=초록, 구역원 만남=노랑, 부서/교회 행사=파랑, 생일=빨강 */
     .cal-pill-green { background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; }
