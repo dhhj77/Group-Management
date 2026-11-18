@@ -148,11 +148,63 @@
       .calendar-cell { padding:2px; min-height:56px; }
       .calendar-event-pill { font-size:8.5px; line-height:1.2; padding:1.5px 2px; letter-spacing:-0.4px; }
     }
-    /* 회원 일정=초록, 구역원 만남=노랑, 부서/교회 행사=파랑, 생일=빨강 */
+    /* 캘린더 5대 일정 구분 색상 (회원 일정=초록, 심방 일정=주황, 행사 일정=파랑, 회원 생일=빨강, 구역 일정=보라) */
     .cal-pill-green { background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; }
-    .cal-pill-yellow { background:#fef08a; color:#854d0e; border:1px solid #fde047; }
+    .cal-pill-amber { background:#fef3c7; color:#92400e; border:1px solid #fcd34d; }
+    .cal-pill-yellow { background:#fef3c7; color:#92400e; border:1px solid #fcd34d; } /* 구버전 호환 */
     .cal-pill-blue { background:#dbeafe; color:#1e40af; border:1px solid #93c5fd; }
     .cal-pill-red { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; font-weight:800; }
+    .cal-pill-purple { background:#ede9fe; color:#5b21b6; border:1px solid #c4b5fd; }
+
+    /* 세련되고 컴팩트한 새 일정 등록 UI */
+    .cal-add-container {
+      margin-bottom:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; overflow:hidden;
+      box-shadow:0 1px 2px rgba(0,0,0,0.03); transition:all 0.2s ease;
+    }
+    .cal-add-header {
+      padding:8px 12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+      background:#f8fafc; user-select:none;
+    }
+    .cal-add-header:hover { background:#f1f5f9; }
+    .cal-add-badge {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:18px; height:18px; border-radius:99px; background:var(--primary); color:#fff; font-size:10px; font-weight:800;
+    }
+    .btn-cal-toggle {
+      background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; font-size:11px; font-weight:700;
+      color:#475569; padding:3px 8px; cursor:pointer; transition:0.15s;
+    }
+    .btn-cal-toggle:hover { background:#eff6ff; color:var(--primary); border-color:#93c5fd; }
+    .cal-add-form {
+      padding:10px 12px 12px; background:#ffffff; border-top:1px solid #e2e8f0; display:block;
+    }
+    .cal-add-form.collapsed { display:none; }
+    .cal-form-grid {
+      display:grid; grid-template-columns:repeat(3, 1fr); gap:6px;
+    }
+    .cal-fg-item { display:flex; flex-direction:column; gap:2px; }
+    .cal-fg-item label { font-size:10px; font-weight:700; color:#64748b; }
+    .cal-fg-item.full { grid-column:span 3; }
+    .cal-fg-item.full-btn { grid-column:span 3; display:flex; gap:6px; align-items:center; }
+    .cal-input {
+      padding:5px 8px !important; font-size:12px !important; border-radius:6px !important;
+      border:1px solid #cbd5e1 !important; background:#f8fafc !important; height:32px !important; box-sizing:border-box;
+    }
+    .cal-input:focus {
+      background:#ffffff !important; border-color:var(--primary) !important; outline:none;
+      box-shadow:0 0 0 2px rgba(37,99,235,0.1);
+    }
+    .btn-cal-submit {
+      height:32px; padding:0 14px; background:var(--primary); color:#fff; font-size:12px;
+      font-weight:700; border:none; border-radius:6px; cursor:pointer; white-space:nowrap; transition:0.15s;
+    }
+    .btn-cal-submit:hover { background:#1d4ed8; }
+    @media(max-width:640px) {
+      .cal-form-grid { grid-template-columns:1fr 1fr; }
+      .cal-fg-item:nth-child(3) { grid-column:span 2; }
+      .cal-fg-item.full { grid-column:span 2; }
+      .cal-fg-item.full-btn { grid-column:span 2; }
+    }
 
     /* 테이블 고정 열 */
     .table-responsive { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:10px; }
@@ -288,13 +340,14 @@
     <section class="card" id="sec-calendar">
       <div class="card-header">
         <h2>📅 구역원 일정 캘린더</h2>
-        <div style="display:flex;gap:6px;align-items:center;font-size:11px;font-weight:700;flex-wrap:wrap">
-          <span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5">🎂 회원 생일</span>
+        <div style="display:flex;gap:5px;align-items:center;font-size:11px;font-weight:700;flex-wrap:wrap">
           <span class="badge" style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7">🟢 회원 일정</span>
-          <span class="badge" style="background:#fef08a;color:#854d0e;border:1px solid #fde047">🟡 구역원 만남</span>
-          <span class="badge" style="background:#dbeafe;color:#1e40af;border:1px solid #93c5fd">🔵 부서/교회 행사</span>
+          <span class="badge" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d">🟡 심방 일정</span>
+          <span class="badge" style="background:#dbeafe;color:#1e40af;border:1px solid #93c5fd">🔵 행사 일정</span>
+          <span class="badge" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5">🎂 회원 생일</span>
+          <span class="badge" style="background:#ede9fe;color:#5b21b6;border:1px solid #c4b5fd">🟣 구역 일정</span>
         </div>
-        <p>명부에 등록된 생일은 빨간색으로 자동 표시되며, 일정 구분별(회원 일정=초록, 만남=노랑, 행사=파랑, 생일=빨강)로 등록·수정할 수 있습니다.</p>
+        <p>명부에 등록된 생일은 빨간색으로 자동 표시되며, 5대 일정 구분(회원 일정=초록, 심방=주황, 행사=파랑, 생일=빨강, 구역=보라)으로 관리됩니다.</p>
       </div>
       <div style="padding:12px">
         <div class="calendar-header">
@@ -302,24 +355,44 @@
           <h3 id="calendar-title" style="font-size:15px;font-weight:700">2026년 10월</h3>
           <button type="button" class="btn-dark" onclick="changeMonth(1)">다음달 ▶</button>
         </div>
-        <div style="margin-bottom:12px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px">
-          <div class="form-title">➕ 새 일정 등록</div>
-          <form onsubmit="addCalendarEvent(event)">
-            <div class="row">
-              <div class="col-2"><input type="date" id="cal-date" required></div>
-              <div class="col-2">
-                <select id="cal-type">
+
+        <!-- 슬림 & 컴팩트 새 일정 등록 UI -->
+        <div class="cal-add-container">
+          <div class="cal-add-header" onclick="toggleCalAddForm()">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="cal-add-badge">➕</span>
+              <strong style="font-size:12px;color:#334155">새 일정 등록</strong>
+              <span style="font-size:10px;color:#94a3b8;font-weight:500" id="cal-toggle-hint">간편 입력란</span>
+            </div>
+            <button type="button" class="btn-cal-toggle" id="btn-cal-toggle">접기 ▴</button>
+          </div>
+          <form id="cal-add-form" class="cal-add-form" onsubmit="addCalendarEvent(event)">
+            <div class="cal-form-grid">
+              <div class="cal-fg-item">
+                <label>날짜</label>
+                <input type="date" id="cal-date" required class="cal-input">
+              </div>
+              <div class="cal-fg-item">
+                <label>일정 구분</label>
+                <select id="cal-type" class="cal-input">
                   <option value="회원 일정">🟢 회원 일정</option>
-                  <option value="구역원 만남">🟡 구역원 만남</option>
-                  <option value="부서/교회 행사">🔵 부서/교회 행사</option>
+                  <option value="심방 일정">🟡 심방 일정</option>
+                  <option value="행사 일정">🔵 행사 일정</option>
                   <option value="회원 생일">🎂 회원 생일</option>
+                  <option value="구역 일정">🟣 구역 일정</option>
                 </select>
               </div>
-              <div class="col-2"><select id="cal-member"></select></div>
-              <div class="col-3"><input type="text" id="cal-title" required placeholder="일정 제목 (예: 심방, 교제)"></div>
-              <div class="col-3" style="display:flex;gap:6px">
-                <input type="text" id="cal-note" placeholder="메모/시간" style="flex:1">
-                <button type="submit" class="btn-primary">등록</button>
+              <div class="cal-fg-item">
+                <label>대상 회원</label>
+                <select id="cal-member" class="cal-input"></select>
+              </div>
+              <div class="cal-fg-item full">
+                <label>일정 제목</label>
+                <input type="text" id="cal-title" required placeholder="예: 심방, 모임, 행사 제목" class="cal-input">
+              </div>
+              <div class="cal-fg-item full-btn">
+                <input type="text" id="cal-note" placeholder="메모 / 시간 (선택)" class="cal-input" style="flex:1">
+                <button type="submit" class="btn-cal-submit">일정 등록</button>
               </div>
             </div>
           </form>
@@ -827,9 +900,10 @@
             <label style="font-size:11px">일정 구분</label>
             <select id="edit-cal-type">
               <option value="회원 일정">🟢 회원 일정</option>
-              <option value="구역원 만남">🟡 구역원 만남</option>
-              <option value="부서/교회 행사">🔵 부서/교회 행사</option>
+              <option value="심방 일정">🟡 심방 일정</option>
+              <option value="행사 일정">🔵 행사 일정</option>
               <option value="회원 생일">🎂 회원 생일</option>
+              <option value="구역 일정">🟣 구역 일정</option>
             </select>
           </div>
         </div>
@@ -889,9 +963,10 @@
     }
 
     function normalizeEventType(t) {
-      if (t === '구역 모임') return '구역원 만남';
-      if (t === '교회 행사') return '부서/교회 행사';
-      if (t === '생일') return '회원 생일';
+      if (t === '구역원 만남' || t === '구역 모임' || t === '심방' || t === '심방 일정') return '심방 일정';
+      if (t === '부서/교회 행사' || t === '교회 행사' || t === '행사' || t === '행사 일정') return '행사 일정';
+      if (t === '회원 생일' || t === '생일') return '회원 생일';
+      if (t === '구역 일정') return '구역 일정';
       return t || '회원 일정';
     }
 
@@ -1397,14 +1472,25 @@
       `;
     };
 
-    // --- 캘린더 일정 구분 및 색상 처리 (회원 생일=빨강, 회원 일정=초록, 구역원 만남=노랑, 부서/교회 행사=파랑) ---
+    // --- 캘린더 5대 일정 구분 및 색상 처리 ---
     function getCalendarPillClass(type) {
       const norm = normalizeEventType(type);
       if (norm === '회원 생일') return 'cal-pill-red';
-      if (norm === '구역원 만남') return 'cal-pill-yellow';
-      if (norm === '부서/교회 행사') return 'cal-pill-blue';
+      if (norm === '심방 일정') return 'cal-pill-amber';
+      if (norm === '행사 일정') return 'cal-pill-blue';
+      if (norm === '구역 일정') return 'cal-pill-purple';
       return 'cal-pill-green'; // 회원 일정
     }
+
+    window.toggleCalAddForm = function() {
+      const form = document.getElementById('cal-add-form');
+      const btn = document.getElementById('btn-cal-toggle');
+      if (!form) return;
+      const isCollapsed = form.classList.toggle('collapsed');
+      btn.textContent = isCollapsed ? '일정 추가 ▾' : '접기 ▴';
+      const hint = document.getElementById('cal-toggle-hint');
+      if (hint) hint.textContent = isCollapsed ? '터치하여 간편 입력' : '간편 입력란';
+    };
 
     window.changeMonth = function(dir) {
       window.currentCalendarMonth += dir;
@@ -1468,6 +1554,10 @@
     window.renderCalendar = function() {
       const y = window.currentCalendarYear, m = window.currentCalendarMonth;
       document.getElementById('calendar-title').textContent = `${y}년 ${m + 1}월`;
+      const calDateInput = document.getElementById('cal-date');
+      if (calDateInput && !calDateInput.value) {
+        calDateInput.value = new Date().toISOString().split('T')[0];
+      }
       const firstDay = new Date(y, m, 1).getDay();
       const lastDate = new Date(y, m + 1, 0).getDate();
       const prevLast = new Date(y, m, 0).getDate();
@@ -1487,7 +1577,7 @@
         let pills = evs.map(ev => {
           const evType = normalizeEventType(ev.type);
           const pillCls = getCalendarPillClass(evType);
-          const prefix = evType === '구역원 만남' ? '[만남]' : evType === '부서/교회 행사' ? '[행사]' : evType === '회원 생일' ? '🎂' : `[${ev.member}]`;
+          const prefix = evType === '심방 일정' ? '[심방]' : evType === '행사 일정' ? '[행사]' : evType === '구역 일정' ? '[구역]' : evType === '회원 생일' ? '🎂' : `[${ev.member}]`;
           return `<div class="calendar-event-pill ${pillCls}" onclick="openEditCalendarModal(${ev.id})" title="${evType} - ${ev.member}: ${ev.title}">${prefix} ${ev.title}</div>`;
         }).join('');
 
