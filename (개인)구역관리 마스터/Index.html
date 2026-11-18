@@ -180,12 +180,12 @@
     }
     .cal-add-form.collapsed { display:none; }
     .cal-form-grid {
-      display:grid; grid-template-columns:repeat(3, 1fr); gap:6px;
+      display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;
     }
     .cal-fg-item { display:flex; flex-direction:column; gap:2px; }
     .cal-fg-item label { font-size:10px; font-weight:700; color:#64748b; }
-    .cal-fg-item.full { grid-column:span 3; }
-    .cal-fg-item.full-btn { grid-column:span 3; display:flex; gap:6px; align-items:center; }
+    .cal-fg-item.full { grid-column:span 4; }
+    .cal-fg-item.full-btn { grid-column:span 4; display:flex; gap:6px; align-items:center; }
     .cal-input {
       padding:5px 8px !important; font-size:12px !important; border-radius:6px !important;
       border:1px solid #cbd5e1 !important; background:#f8fafc !important; height:32px !important; box-sizing:border-box;
@@ -201,31 +201,43 @@
     .btn-cal-submit:hover { background:#1d4ed8; }
     @media(max-width:640px) {
       .cal-form-grid { grid-template-columns:1fr 1fr; }
-      .cal-fg-item:nth-child(3) { grid-column:span 2; }
       .cal-fg-item.full { grid-column:span 2; }
       .cal-fg-item.full-btn { grid-column:span 2; }
     }
 
-    /* 테이블 고정 열 */
+    /* 테이블 스타일 최적화 (한눈에 보기) */
     .table-responsive { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:10px; }
-    .custom-table { width:100%; border-collapse:separate; border-spacing:0; font-size:12px; text-align:center; background:#fff; }
-    .custom-table th, .custom-table td { border-right:1px solid var(--border); border-bottom:1px solid var(--border); padding:8px 6px; white-space:nowrap; }
-    .custom-table th { background:#f8fafc; font-weight:700; color:#1e3a8a; }
+    .custom-table { width:100%; border-collapse:separate; border-spacing:0; font-size:11px; text-align:center; background:#fff; }
+    .custom-table th, .custom-table td { border-right:1px solid var(--border); border-bottom:1px solid var(--border); padding:5px 4px; white-space:nowrap; }
+    .custom-table th { background:#f8fafc; font-weight:700; color:#1e3a8a; font-size:11px; padding:6px 4px; }
     .custom-table tr:last-child td { border-bottom:none; }
 
     .custom-table th:nth-child(1), .custom-table td:nth-child(1) {
-      position:sticky; left:0; z-index:5; background:#f8fafc; width:36px; min-width:36px;
+      position:sticky; left:0; z-index:5; background:#f8fafc; width:28px; min-width:28px; font-size:10px; padding:4px 2px;
     }
     .custom-table th:nth-child(2), .custom-table td:nth-child(2) {
-      position:sticky; left:36px; z-index:5; background:#fff; min-width:68px; box-shadow:2px 0 5px -2px rgba(0,0,0,0.12);
+      position:sticky; left:28px; z-index:5; background:#fff; min-width:54px; width:54px; box-shadow:2px 0 5px -2px rgba(0,0,0,0.12); font-size:11px; font-weight:700;
     }
     .custom-table th:nth-child(2) { background:#f8fafc; }
 
     .worship-select {
-      width:auto; min-width:116px; padding:6px 8px; border-radius:999px; font-size:13px; font-weight:700;
-      border:1px solid transparent; cursor:pointer; text-align:center; appearance:auto;
+      width:auto; min-width:82px; padding:3px 4px; border-radius:6px; font-size:10.5px; font-weight:700;
+      border:1px solid transparent; cursor:pointer; text-align:center; appearance:auto; height:26px;
     }
-    @media(min-width:768px) { .worship-select { font-size:11px; padding:4px 8px; } }
+    .offering-input { width:68px; padding:3px 4px; font-size:11px; text-align:right; height:26px; border:1px solid #cbd5e1; border-radius:6px; }
+    .tithe-select { width:78px; padding:3px 2px; font-size:11px; font-weight:700; height:26px; border-radius:6px; border:1px solid #cbd5e1; }
+    .paid-btn { padding:3px 7px; font-size:10.5px; border-radius:6px; font-weight:700; height:26px; border:none; cursor:pointer; white-space:nowrap; }
+
+    @media(max-width:640px) {
+      .custom-table { font-size:10px; }
+      .custom-table th, .custom-table td { padding:3px 2px; }
+      .custom-table th:nth-child(1), .custom-table td:nth-child(1) { width:24px; min-width:24px; font-size:9.5px; }
+      .custom-table th:nth-child(2), .custom-table td:nth-child(2) { min-width:48px; width:48px; font-size:10px; left:24px; }
+      .worship-select { font-size:9px !important; padding:2px 1px !important; min-width:68px !important; height:24px !important; }
+      .paid-btn { font-size:9px !important; padding:2px 4px !important; height:24px !important; }
+      .offering-input { width:52px !important; font-size:9.5px !important; padding:2px 3px !important; height:24px !important; }
+      .tithe-select { width:62px !important; font-size:9.5px !important; height:24px !important; padding:2px 1px !important; }
+    }
     .ws-empty { background:#f8fafc; color:#94a3b8; border:1px dashed #cbd5e1; font-weight:500; }
     .ws-jung-ok { background:#fde68a; color:#78350f; border-color:#fcd34d; }
     .ws-jung-no { background:#fed7aa; color:#9a3412; border-color:#fdba74; }
@@ -265,6 +277,7 @@
     .modal-backdrop { position:fixed; inset:0; background:rgba(15,23,42,0.65); display:flex; align-items:center; justify-content:center; z-index:100; padding:12px; }
     .modal-card { background:#fff; border-radius:16px; max-width:480px; width:100%; padding:18px; max-height:88vh; overflow-y:auto; -webkit-overflow-scrolling:touch; }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -373,6 +386,10 @@
                 <input type="date" id="cal-date" required class="cal-input">
               </div>
               <div class="cal-fg-item">
+                <label>시간 (24시)</label>
+                <input type="time" id="cal-time" class="cal-input">
+              </div>
+              <div class="cal-fg-item">
                 <label>일정 구분</label>
                 <select id="cal-type" class="cal-input">
                   <option value="회원 일정">🟢 회원 일정</option>
@@ -391,7 +408,7 @@
                 <input type="text" id="cal-title" required placeholder="예: 심방, 모임, 행사 제목" class="cal-input">
               </div>
               <div class="cal-fg-item full-btn">
-                <input type="text" id="cal-note" placeholder="메모 / 시간 (선택)" class="cal-input" style="flex:1">
+                <input type="text" id="cal-note" placeholder="추가 메모 (선택)" class="cal-input" style="flex:1">
                 <button type="submit" class="btn-cal-submit">일정 등록</button>
               </div>
             </div>
@@ -415,9 +432,12 @@
       <div class="card-header">
         <h2>⛪ 월별 주일 예배 출석 현황판</h2>
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;width:100%;justify-content:space-between">
-          <button type="button" class="btn-dark" onclick="shiftPickerMonth('sunday-month-picker', -1)">◀ 이전달</button>
-          <input type="month" id="sunday-month-picker" onchange="renderSundayAttendanceTable()" style="flex:1;max-width:160px;font-weight:700;text-align:center">
-          <button type="button" class="btn-dark" onclick="shiftPickerMonth('sunday-month-picker', 1)">다음달 ▶</button>
+          <div style="display:flex;gap:4px;align-items:center">
+            <button type="button" class="btn-dark" onclick="shiftPickerMonth('sunday-month-picker', -1)">◀</button>
+            <input type="month" id="sunday-month-picker" onchange="renderSundayAttendanceTable()" style="max-width:140px;font-weight:700;text-align:center;font-size:12px;padding:4px 6px">
+            <button type="button" class="btn-dark" onclick="shiftPickerMonth('sunday-month-picker', 1)">▶</button>
+          </div>
+          <button type="button" class="btn-emerald" onclick="exportSundayImage()" style="font-size:11px;padding:5px 9px">📸 이미지 저장</button>
         </div>
         <p>주일마다 정식(인증함/안함/오류) ~ 결석을 체크합니다. (좌측 이름 열 고정)</p>
       </div>
@@ -452,14 +472,19 @@
     <section class="card" id="sec-offering">
       <div class="card-header">
         <h2>💰 월별 헌금 현황판</h2>
-        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;width:100%">
-          <button type="button" class="btn-dark" onclick="shiftPickerMonth('offering-month-picker', -1)">◀</button>
-          <input type="month" id="offering-month-picker" onchange="renderOfferingTable()" style="flex:1;min-width:130px;font-weight:700;text-align:center">
-          <button type="button" class="btn-dark" onclick="shiftPickerMonth('offering-month-picker', 1)">▶</button>
-          <button type="button" class="btn-emerald" onclick="markAllPaid('sports', '3,000원')">체육 전원완납</button>
-          <button type="button" class="btn-indigo" onclick="markAllPaid('welfare', '1,000원')">복지 전원완납</button>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;width:100%;justify-content:space-between">
+          <div style="display:flex;gap:4px;align-items:center">
+            <button type="button" class="btn-dark" onclick="shiftPickerMonth('offering-month-picker', -1)">◀</button>
+            <input type="month" id="offering-month-picker" onchange="renderOfferingTable()" style="max-width:140px;font-weight:700;text-align:center;font-size:12px;padding:4px 6px">
+            <button type="button" class="btn-dark" onclick="shiftPickerMonth('offering-month-picker', 1)">▶</button>
+          </div>
+          <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+            <button type="button" class="btn-emerald" onclick="markAllPaid('sports', '3,000원')" style="font-size:10.5px;padding:4px 7px">체육 완납</button>
+            <button type="button" class="btn-indigo" onclick="markAllPaid('welfare', '1,000원')" style="font-size:10.5px;padding:4px 7px">복지 완납</button>
+            <button type="button" class="btn-emerald" onclick="exportOfferingImage()" style="font-size:11px;padding:5px 9px">📸 이미지 저장</button>
+          </div>
         </div>
-        <p>십일조, 청년회비(20,000원), 체육회비(3,000원), 후생복지후원(1,000원), 건축헌금 현황을 체크합니다.</p>
+        <p>십일조, 청년회비(2만), 체육회비(3천), 후생복지(1천), 건축헌금 현황을 체크합니다.</p>
       </div>
       <div style="padding:12px">
         <div class="table-responsive">
@@ -469,9 +494,9 @@
                 <th>No.</th>
                 <th>이름</th>
                 <th>십일조</th>
-                <th>청년회비 (20,000원)</th>
-                <th>체육회비 (3,000원)</th>
-                <th>후생복지 (1,000원)</th>
+                <th>청년회비(2만)</th>
+                <th>체육회비(3천)</th>
+                <th>후생복지(1천)</th>
                 <th>건축헌금</th>
               </tr>
             </thead>
@@ -499,65 +524,70 @@
     </section>
 
     <div class="main-grid">
-      <!-- 좌측: 회원 명부 -->
+      <!-- 좌측: 회원 명부 (접기/펼치기) -->
       <section class="card" id="sec-members" style="margin-bottom:0">
-        <div class="card-header">
-          <h2>📋 구역 회원 명부</h2>
-          <span class="badge b-gyodeung" id="member-badge-count">0명</span>
-          <p>모든 변경 사항은 스마트폰과 PC에 실시간 자동 동기화됩니다.</p>
+        <div class="card-header" onclick="toggleMembersList()" style="cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:8px">
+            <h2>📋 구역 회원 명부</h2>
+            <span class="badge b-gyodeung" id="member-badge-count">0명</span>
+          </div>
+          <button type="button" class="btn-dark" id="btn-toggle-members" style="font-size:11px;padding:4px 9px">명부 보기 ▾</button>
+          <p style="margin-top:2px;width:100%">터치하면 깔끔하게 회원 명부 및 등록 창이 열립니다.</p>
         </div>
-        <div class="form-box">
-          <div class="form-title">➕ 신규 회원 등록</div>
-          <form id="member-form" onsubmit="addMember(event)">
-            <div class="row">
-              <div class="col-6"><input type="text" id="m-name" required placeholder="이름 *"></div>
-              <div class="col-6">
-                <select id="m-level">
-                  <option value="입교">🌱 입교</option>
-                  <option value="교등">🌿 교등</option>
-                  <option value="총등">🌳 총등</option>
-                  <option value="가구역">👑 가구역</option>
-                </select>
+        <div id="members-content-wrapper" style="display:none">
+          <div class="form-box">
+            <div class="form-title">➕ 신규 회원 등록</div>
+            <form id="member-form" onsubmit="addMember(event)">
+              <div class="row">
+                <div class="col-6"><input type="text" id="m-name" required placeholder="이름 *"></div>
+                <div class="col-6">
+                  <select id="m-level">
+                    <option value="입교">🌱 입교</option>
+                    <option value="교등">🌿 교등</option>
+                    <option value="총등">🌳 총등</option>
+                    <option value="가구역">👑 가구역</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <label style="font-size:11px;color:var(--muted)">생년월일</label>
-                <input type="date" id="m-birth" required onchange="previewCalculatedAge()">
+              <div class="row">
+                <div class="col-6">
+                  <label style="font-size:11px;color:var(--muted)">생년월일</label>
+                  <input type="date" id="m-birth" required onchange="previewCalculatedAge()">
+                </div>
+                <div class="col-6">
+                  <label style="font-size:11px;color:var(--muted)">만나이</label>
+                  <input type="text" id="m-age-preview" readonly placeholder="자동계산" style="background:#f1f5f9;font-weight:700;color:var(--primary)">
+                </div>
               </div>
-              <div class="col-6">
-                <label style="font-size:11px;color:var(--muted)">만나이</label>
-                <input type="text" id="m-age-preview" readonly placeholder="자동계산" style="background:#f1f5f9;font-weight:700;color:var(--primary)">
+              <div class="row">
+                <div class="col-6"><input type="text" id="m-phone" placeholder="연락처 (010-...)" type="tel"></div>
+                <div class="col-6"><input type="text" id="m-role" placeholder="직책 (예: 부구역장)"></div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-6"><input type="text" id="m-phone" placeholder="연락처 (010-...)" type="tel"></div>
-              <div class="col-6"><input type="text" id="m-role" placeholder="직책 (예: 부구역장)"></div>
-            </div>
-            <div class="row">
-              <div class="col-12"><input type="text" id="m-location" required placeholder="거주지 / 소속 교회 *"></div>
-            </div>
-            <div style="background:#fff;border:1px solid var(--border);padding:10px;border-radius:8px;margin-bottom:8px">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                <span style="font-size:11px;font-weight:700">특이사항 / 기도제목</span>
-                <button type="button" class="btn-primary" style="padding:4px 8px;font-size:11px" onclick="addNoteInput('add-notes-container')">+ 추가</button>
+              <div class="row">
+                <div class="col-12"><input type="text" id="m-location" required placeholder="거주지 / 소속 교회 *"></div>
               </div>
-              <div id="add-notes-container" style="display:flex;flex-direction:column;gap:6px">
-                <div style="display:flex;gap:4px"><input type="text" class="note-input-item" placeholder="특이사항 입력..." style="flex:1"></div>
+              <div style="background:#fff;border:1px solid var(--border);padding:10px;border-radius:8px;margin-bottom:8px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <span style="font-size:11px;font-weight:700">특이사항 / 기도제목</span>
+                  <button type="button" class="btn-primary" style="padding:4px 8px;font-size:11px" onclick="addNoteInput('add-notes-container')">+ 추가</button>
+                </div>
+                <div id="add-notes-container" style="display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;gap:4px"><input type="text" class="note-input-item" placeholder="특이사항 입력..." style="flex:1"></div>
+                </div>
               </div>
-            </div>
-            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:10px">회원 등록</button>
-          </form>
+              <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:10px">회원 등록</button>
+            </form>
+          </div>
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:6px">
+            <input type="text" id="member-search" oninput="renderMembers()" placeholder="🔍 이름, 거주지 검색..." style="flex:1">
+            <select id="member-filter-level" onchange="renderMembers()" style="width:105px">
+              <option value="ALL">전체 단계</option>
+              <option value="입교">입교</option><option value="교등">교등</option>
+              <option value="총등">총등</option><option value="가구역">가구역</option>
+            </select>
+          </div>
+          <div id="member-list" class="list-box"></div>
         </div>
-        <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:6px">
-          <input type="text" id="member-search" oninput="renderMembers()" placeholder="🔍 이름, 거주지 검색..." style="flex:1">
-          <select id="member-filter-level" onchange="renderMembers()" style="width:105px">
-            <option value="ALL">전체 단계</option>
-            <option value="입교">입교</option><option value="교등">교등</option>
-            <option value="총등">총등</option><option value="가구역">가구역</option>
-          </select>
-        </div>
-        <div id="member-list" class="list-box"></div>
       </section>
 
       <!-- 우측: 성장계획 & 구역모임 출석부 & 월2회 시험 & 사명자 양성 -->
@@ -754,7 +784,7 @@
     <button type="button" class="nav-item" onclick="scrollToSection('sec-offering')">
       <span class="icon">💰</span><span>월별헌금</span>
     </button>
-    <button type="button" class="nav-item" onclick="scrollToSection('sec-members')">
+    <button type="button" class="nav-item" onclick="toggleMembersList(true); scrollToSection('sec-members')">
       <span class="icon">📋</span><span>회원명부</span>
     </button>
     <button type="button" class="nav-item" onclick="scrollToSection('sec-plans')">
@@ -896,6 +926,9 @@
         <input type="hidden" id="edit-cal-id">
         <div class="row">
           <div class="col-6"><label style="font-size:11px">날짜</label><input type="date" id="edit-cal-date" required></div>
+          <div class="col-6"><label style="font-size:11px">시간 (24시, 선택)</label><input type="time" id="edit-cal-time"></div>
+        </div>
+        <div class="row">
           <div class="col-6">
             <label style="font-size:11px">일정 구분</label>
             <select id="edit-cal-type">
@@ -906,10 +939,10 @@
               <option value="구역 일정">🟣 구역 일정</option>
             </select>
           </div>
+          <div class="col-6"><label style="font-size:11px">대상 회원</label><select id="edit-cal-member"></select></div>
         </div>
         <div class="row">
-          <div class="col-6"><label style="font-size:11px">대상 회원</label><select id="edit-cal-member"></select></div>
-          <div class="col-6"><label style="font-size:11px">일정 제목</label><input type="text" id="edit-cal-title" required></div>
+          <div class="col-12"><label style="font-size:11px">일정 제목</label><input type="text" id="edit-cal-title" required></div>
         </div>
         <div class="row"><div class="col-12"><label style="font-size:11px">메모</label><input type="text" id="edit-cal-note"></div></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
@@ -1263,7 +1296,7 @@
 
       headerTr.innerHTML = `<th>No.</th><th>이름</th>` + sundays.map(s => {
         const isFuture = s.iso > todayIso;
-        return `<th>${s.label} (주일) ${isFuture ? '<span style="font-size:9px;color:#94a3b8;display:block">예정</span>' : ''}</th>`;
+        return `<th>${s.label}${isFuture ? '<span style="font-size:8px;color:#94a3b8;display:block">예정</span>' : ''}</th>`;
       }).join('');
 
       tbody.innerHTML = members.map((m, idx) => {
@@ -1402,32 +1435,32 @@
             <td>${idx + 1}</td>
             <td style="font-weight:700">${m.name}</td>
             <td>
-              <select onchange="updateOfferingField('${m.id}', 'tithe', this.value)" style="width:95px;padding:6px 4px;font-weight:700;color:${tithe==='O'?'#059669':tithe==='X'?'#dc2626':'#64748b'}">
+              <select class="tithe-select" onchange="updateOfferingField('${m.id}', 'tithe', this.value)" style="color:${tithe==='O'?'#059669':tithe==='X'?'#dc2626':'#64748b'}">
                 <option value="" ${tithe===''?'selected':''}>납부전</option>
                 <option value="O" ${tithe==='O'?'selected':''}>✅ 납부(O)</option>
                 <option value="X" ${tithe==='X'?'selected':''}>❌ 미납(X)</option>
               </select>
             </td>
             <td>
-              <div style="display:flex;gap:4px;justify-content:center;align-items:center">
-                <input type="text" value="${youth}" onchange="updateOfferingField('${m.id}', 'youth', this.value)" placeholder="납부전" style="width:85px;padding:6px;text-align:right">
-                <button type="button" class="paid-btn ${isYouthPaid ? 'paid-on' : 'paid-off'}" onclick="togglePaidOffering('${m.id}', 'youth', '20,000원')">${isYouthPaid ? '✅ 완납' : '완납'}</button>
+              <div style="display:flex;gap:2px;justify-content:center;align-items:center">
+                <input type="text" class="offering-input" value="${youth}" onchange="updateOfferingField('${m.id}', 'youth', this.value)" placeholder="납부전">
+                <button type="button" class="paid-btn ${isYouthPaid ? 'paid-on' : 'paid-off'}" onclick="togglePaidOffering('${m.id}', 'youth', '20,000원')">${isYouthPaid ? '완납' : '완납'}</button>
               </div>
             </td>
             <td>
-              <div style="display:flex;gap:4px;justify-content:center;align-items:center">
-                <input type="text" value="${sports}" onchange="updateOfferingField('${m.id}', 'sports', this.value)" placeholder="납부전" style="width:75px;padding:6px;text-align:right">
-                <button type="button" class="paid-btn ${isSportsPaid ? 'paid-on' : 'paid-off'}" onclick="togglePaidOffering('${m.id}', 'sports', '3,000원')">${isSportsPaid ? '✅ 완납' : '완납'}</button>
+              <div style="display:flex;gap:2px;justify-content:center;align-items:center">
+                <input type="text" class="offering-input" value="${sports}" onchange="updateOfferingField('${m.id}', 'sports', this.value)" placeholder="납부전">
+                <button type="button" class="paid-btn ${isSportsPaid ? 'paid-on' : 'paid-off'}" onclick="togglePaidOffering('${m.id}', 'sports', '3,000원')">${isSportsPaid ? '완납' : '완납'}</button>
               </div>
             </td>
             <td>
-              <div style="display:flex;gap:4px;justify-content:center;align-items:center">
-                <input type="text" value="${welfare}" onchange="updateOfferingField('${m.id}', 'welfare', this.value)" placeholder="납부전" style="width:75px;padding:6px;text-align:right">
-                <button type="button" class="paid-btn ${isWelfarePaid ? 'paid-on' : 'paid-off'}" onclick="togglePaidOffering('${m.id}', 'welfare', '1,000원')">${isWelfarePaid ? '✅ 완납' : '완납'}</button>
+              <div style="display:flex;gap:2px;justify-content:center;align-items:center">
+                <input type="text" class="offering-input" value="${welfare}" onchange="updateOfferingField('${m.id}', 'welfare', this.value)" placeholder="납부전">
+                <button type="button" class="paid-btn ${isWelfarePaid ? 'paid-on' : 'paid-off'}" onclick="togglePaidOffering('${m.id}', 'welfare', '1,000원')">${isWelfarePaid ? '완납' : '완납'}</button>
               </div>
             </td>
             <td>
-              <input type="text" value="${building}" onchange="updateOfferingField('${m.id}', 'building', this.value)" placeholder="납부전" style="width:95px;padding:6px;text-align:right">
+              <input type="text" class="offering-input" value="${building}" onchange="updateOfferingField('${m.id}', 'building', this.value)" placeholder="0원" style="width:68px">
             </td>
           </tr>
         `;
@@ -1504,6 +1537,7 @@
       window.appData.events.push({
         id: Date.now(),
         date: document.getElementById('cal-date').value,
+        time: document.getElementById('cal-time')?.value || '',
         type: document.getElementById('cal-type').value || '회원 일정',
         member: document.getElementById('cal-member').value,
         title: document.getElementById('cal-title').value.trim(),
@@ -1511,6 +1545,7 @@
       });
       document.getElementById('cal-title').value = '';
       document.getElementById('cal-note').value = '';
+      if (document.getElementById('cal-time')) document.getElementById('cal-time').value = '';
       saveData();
     };
 
@@ -1519,6 +1554,7 @@
       if (!ev) return;
       document.getElementById('edit-cal-id').value = ev.id;
       document.getElementById('edit-cal-date').value = ev.date;
+      if (document.getElementById('edit-cal-time')) document.getElementById('edit-cal-time').value = ev.time || '';
       document.getElementById('edit-cal-type').value = normalizeEventType(ev.type);
       document.getElementById('edit-cal-title').value = ev.title;
       document.getElementById('edit-cal-note').value = ev.note || '';
@@ -1535,6 +1571,7 @@
       const ev = (window.appData.events || []).find(x => x.id === id);
       if (!ev) return;
       ev.date = document.getElementById('edit-cal-date').value;
+      if (document.getElementById('edit-cal-time')) ev.time = document.getElementById('edit-cal-time').value || '';
       ev.type = document.getElementById('edit-cal-type').value || '회원 일정';
       ev.member = document.getElementById('edit-cal-member').value;
       ev.title = document.getElementById('edit-cal-title').value.trim();
@@ -1577,8 +1614,9 @@
         let pills = evs.map(ev => {
           const evType = normalizeEventType(ev.type);
           const pillCls = getCalendarPillClass(evType);
+          const timeBadge = ev.time ? `<span style="font-weight:800;opacity:0.95;margin-right:2px">${ev.time}</span>` : '';
           const prefix = evType === '심방 일정' ? '[심방]' : evType === '행사 일정' ? '[행사]' : evType === '구역 일정' ? '[구역]' : evType === '회원 생일' ? '🎂' : `[${ev.member}]`;
-          return `<div class="calendar-event-pill ${pillCls}" onclick="openEditCalendarModal(${ev.id})" title="${evType} - ${ev.member}: ${ev.title}">${prefix} ${ev.title}</div>`;
+          return `<div class="calendar-event-pill ${pillCls}" onclick="openEditCalendarModal(${ev.id})" title="${evType} - ${ev.member} ${ev.time || ''}: ${ev.title}">${timeBadge}${prefix} ${ev.title}</div>`;
         }).join('');
 
         // 2) 회원 명부 기반 생일 자동 표시 (빨간색)
@@ -1589,6 +1627,55 @@
         });
 
         grid.innerHTML += `<div class="calendar-cell"><div class="calendar-date-num">${d}</div>${pills}</div>`;
+      }
+    };
+
+    // --- 회원 명부 접기/펼치기 제어 ---
+    window.toggleMembersList = function(forceOpen) {
+      const wrapper = document.getElementById('members-content-wrapper');
+      const btn = document.getElementById('btn-toggle-members');
+      if (!wrapper) return;
+      const isOpening = forceOpen === true ? true : (wrapper.style.display === 'none');
+      wrapper.style.display = isOpening ? 'block' : 'none';
+      if (btn) btn.textContent = isOpening ? '명부 접기 ▴' : '명부 보기 ▾';
+    };
+
+    // --- 주일예배 및 헌금 현황 이미지(PNG) 다운로드 기능 ---
+    window.exportSundayImage = async function() {
+      const target = document.getElementById('sec-sunday');
+      if (!target) return;
+      if (typeof html2canvas === 'undefined') {
+        alert('이미지 생성 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
+        return;
+      }
+      try {
+        const ym = document.getElementById('sunday-month-picker')?.value || '2026-10';
+        const canvas = await html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+        const a = document.createElement('a');
+        a.download = `주일예배_출석현황_${ym}.png`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+      } catch (err) {
+        alert('이미지 저장 중 오류가 발생했습니다: ' + err.message);
+      }
+    };
+
+    window.exportOfferingImage = async function() {
+      const target = document.getElementById('sec-offering');
+      if (!target) return;
+      if (typeof html2canvas === 'undefined') {
+        alert('이미지 생성 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
+        return;
+      }
+      try {
+        const ym = document.getElementById('offering-month-picker')?.value || '2026-10';
+        const canvas = await html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+        const a = document.createElement('a');
+        a.download = `월별_헌금현황_${ym}.png`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+      } catch (err) {
+        alert('이미지 저장 중 오류가 발생했습니다: ' + err.message);
       }
     };
 
