@@ -138,6 +138,65 @@
     @media(min-width:640px) { .calendar-cell { min-height:75px; padding:4px; border-radius:8px; } }
     .calendar-cell.other-month { background:#f1f5f9; opacity:0.45; }
     .calendar-date-num { font-size:10px; font-weight:700; color:#334155; margin-bottom:2px; text-align:left; }
+
+    /* 캘린더 오늘 날짜 깜빡임 강조 및 표식 */
+    .calendar-cell.is-today {
+      background:#eff6ff !important;
+      border:2px solid #2563eb !important;
+      box-shadow:0 0 0 2px rgba(37,99,235,0.2);
+      position:relative;
+    }
+    .today-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:2px;
+    }
+    .today-marker-badge {
+      display:inline-flex;
+      align-items:center;
+      gap:3px;
+      background:#ef4444;
+      color:#ffffff;
+      font-size:8px;
+      font-weight:900;
+      padding:1px 4px;
+      border-radius:9999px;
+      animation:todayBlinkAnim 1.2s infinite ease-in-out;
+      box-shadow:0 1px 3px rgba(239,68,68,0.4);
+      white-space:nowrap;
+      letter-spacing:-0.4px;
+    }
+    .is-today .date-num-val {
+      color:#1d4ed8;
+      font-weight:900;
+    }
+    .blink-dot {
+      width:4px;
+      height:4px;
+      border-radius:50%;
+      background:#ffffff;
+      display:inline-block;
+    }
+    @keyframes todayBlinkAnim {
+      0%, 100% {
+        opacity:1;
+        transform:scale(1);
+        box-shadow:0 0 6px rgba(239,68,68,0.85);
+      }
+      50% {
+        opacity:0.35;
+        transform:scale(0.95);
+        box-shadow:0 0 2px rgba(239,68,68,0.25);
+      }
+    }
+    @media(max-width:640px) {
+      .today-marker-badge {
+        font-size:7px;
+        padding:1px 3px;
+        letter-spacing:-0.6px;
+      }
+    }
     
     .calendar-event-pill {
       font-size:9px; font-weight:700; line-height:1.25; padding:2px 3px; border-radius:4px; margin-bottom:2px;
@@ -237,6 +296,77 @@
       .paid-btn { font-size:9px !important; padding:2px 4px !important; height:24px !important; }
       .offering-input { width:52px !important; font-size:9.5px !important; padding:2px 3px !important; height:24px !important; }
       .tithe-select { width:62px !important; font-size:9.5px !important; height:24px !important; padding:2px 1px !important; }
+    }
+
+    /* 주일 예배 출석 현황판 - 한달 내용이 한눈에 쏙 들어오는 컴팩트 뷰 */
+    #sec-sunday .custom-table {
+      font-size:10px;
+      width:100%;
+    }
+    #sec-sunday .custom-table th, 
+    #sec-sunday .custom-table td {
+      padding:3px 2px;
+      line-height:1.2;
+    }
+    #sec-sunday .custom-table th:nth-child(1), 
+    #sec-sunday .custom-table td:nth-child(1) {
+      width:22px;
+      min-width:22px;
+      font-size:9px;
+      padding:3px 1px;
+    }
+    #sec-sunday .custom-table th:nth-child(2), 
+    #sec-sunday .custom-table td:nth-child(2) {
+      left:22px;
+      width:44px;
+      min-width:44px;
+      font-size:10px;
+      padding:3px 2px;
+    }
+    #sec-sunday .worship-select {
+      width:100%;
+      min-width:50px;
+      max-width:68px;
+      font-size:9px;
+      padding:2px 1px;
+      height:23px;
+      letter-spacing:-0.5px;
+      border-radius:4px;
+    }
+    @media(max-width:640px) {
+      #sec-sunday .sunday-table-container {
+        padding:6px 3px !important;
+      }
+      #sec-sunday .custom-table {
+        font-size:8.5px;
+      }
+      #sec-sunday .custom-table th, 
+      #sec-sunday .custom-table td {
+        padding:2px 1px !important;
+      }
+      #sec-sunday .custom-table th:nth-child(1), 
+      #sec-sunday .custom-table td:nth-child(1) {
+        width:18px !important;
+        min-width:18px !important;
+        font-size:8px !important;
+        padding:2px 0 !important;
+      }
+      #sec-sunday .custom-table th:nth-child(2), 
+      #sec-sunday .custom-table td:nth-child(2) {
+        left:18px !important;
+        width:38px !important;
+        min-width:38px !important;
+        font-size:9px !important;
+        padding:2px 1px !important;
+      }
+      #sec-sunday .worship-select {
+        min-width:44px !important;
+        max-width:56px !important;
+        font-size:8px !important;
+        padding:1px 0px !important;
+        height:21px !important;
+        letter-spacing:-0.6px;
+      }
     }
     .ws-empty { background:#f8fafc; color:#94a3b8; border:1px dashed #cbd5e1; font-weight:500; }
     .ws-jung-ok { background:#fde68a; color:#78350f; border-color:#fcd34d; }
@@ -451,7 +581,7 @@
         </div>
         <p>주일마다 정식(인증함/안함/오류) ~ 결석을 체크합니다. (좌측 이름 열 고정)</p>
       </div>
-      <div style="padding:12px">
+      <div class="sunday-table-container" style="padding:10px 8px">
         <div class="table-responsive">
           <table class="custom-table">
             <thead><tr id="sunday-table-header"></tr></thead>
@@ -680,7 +810,7 @@
             <div class="card-header">
               <div>
                 <h2>🚀 회원별 단계향상 계획 & 누적 기록 피드</h2>
-                <p>회원별 단계(입교🌱 ➔ 교등🌿 ➔ 총등🌳 ➔ 가구역👑) 향상 과정과 심방·학습·피드백을 누적으로 계속 기록합니다.</p>
+                <p>회원별 신앙 단계 향상(전도단, 기도회, 구역예배 등) 목표와 양육·심방·피드백을 누적으로 계속 기록합니다.</p>
               </div>
             </div>
 
@@ -706,13 +836,19 @@
                     <select id="stepup-member" required onchange="onStepupMemberChange()"></select>
                   </div>
                   <div class="col-4">
-                    <label style="font-size:11px;color:var(--muted)">목표 단계 *</label>
-                    <select id="stepup-target-level" required>
-                      <option value="교등">🌿 교등</option>
-                      <option value="총등">🌳 총등</option>
-                      <option value="가구역">👑 가구역</option>
-                      <option value="입교">🌱 입교</option>
-                    </select>
+                    <label style="font-size:11px;color:var(--muted)">신앙 단계향상 목표 *</label>
+                    <div style="display:flex;gap:4px;align-items:center">
+                      <select id="stepup-target-level" required onchange="toggleStepupCustomTarget()" style="flex:1">
+                        <option value="월/토 전도단">🚶 월/토 전도단</option>
+                        <option value="기도회">🙏 기도회</option>
+                        <option value="구역예배">⛪ 구역예배</option>
+                        <option value="좌판">📖 좌판</option>
+                        <option value="섬김이">🤝 섬김이</option>
+                        <option value="개강천사">👼 개강천사</option>
+                        <option value="기타">✏️ 기타 (직접 입력)</option>
+                      </select>
+                      <input type="text" id="stepup-target-custom" placeholder="단계 직접입력" style="display:none;width:105px;padding:6px 8px;font-size:11px;border-radius:6px;border:1px solid #cbd5e1" />
+                    </div>
                   </div>
                   <div class="col-4">
                     <label style="font-size:11px;color:var(--muted)">기록 날짜 *</label>
@@ -1718,12 +1854,18 @@
       if (!grid) return;
       grid.innerHTML = '';
 
+      const now = new Date();
+      const todayY = now.getFullYear();
+      const todayM = now.getMonth();
+      const todayD = now.getDate();
+
       for (let i = firstDay; i > 0; i--) {
         grid.innerHTML += `<div class="calendar-cell other-month"><div class="calendar-date-num">${prevLast - i + 1}</div></div>`;
       }
       for (let d = 1; d <= lastDate; d++) {
         const dStr = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         const curMd = `${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const isToday = (y === todayY && m === todayM && d === todayD);
         
         // 1) 수동 등록 일정
         const evs = (window.appData.events || []).filter(ev => ev.date === dStr);
@@ -1742,7 +1884,12 @@
           }
         });
 
-        grid.innerHTML += `<div class="calendar-cell"><div class="calendar-date-num">${d}</div>${pills}</div>`;
+        const cellCls = isToday ? 'calendar-cell is-today' : 'calendar-cell';
+        const numHeader = isToday 
+          ? `<div class="calendar-date-num today-header"><span class="date-num-val">${d}</span><span class="today-marker-badge"><span class="blink-dot"></span>오늘(${d}일)</span></div>`
+          : `<div class="calendar-date-num"><span class="date-num-val">${d}</span></div>`;
+
+        grid.innerHTML += `<div class="${cellCls}">${numHeader}${pills}</div>`;
       }
     };
 
@@ -2136,25 +2283,43 @@
     };
 
     // --- 회원별 단계향상 계획 및 누적 기록 시스템 ---
+    window.toggleStepupCustomTarget = function() {
+      const sel = document.getElementById('stepup-target-level');
+      const customInput = document.getElementById('stepup-target-custom');
+      if (!sel || !customInput) return;
+      if (sel.value === '기타') {
+        customInput.style.display = 'block';
+        customInput.required = true;
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+        customInput.required = false;
+        customInput.value = '';
+      }
+    };
+
     window.onStepupMemberChange = function() {
-      const memberName = document.getElementById('stepup-member')?.value;
-      if (!memberName) return;
-      const mem = (window.appData.members || []).find(m => m.name === memberName);
-      if (!mem) return;
-      const curLv = mem.level || '입교';
-      const targetSelect = document.getElementById('stepup-target-level');
-      if (targetSelect) {
-        if (curLv === '입교') targetSelect.value = '교등';
-        else if (curLv === '교등') targetSelect.value = '총등';
-        else if (curLv === '총등') targetSelect.value = '가구역';
-        else targetSelect.value = '가구역';
+      const sel = document.getElementById('stepup-target-level');
+      if (sel && sel.value === '기타') {
+        sel.value = '월/토 전도단';
+        toggleStepupCustomTarget();
       }
     };
 
     window.addStepupLog = function(e) {
       e.preventDefault();
       const memberName = document.getElementById('stepup-member').value;
-      const targetLevel = document.getElementById('stepup-target-level').value;
+      const targetSel = document.getElementById('stepup-target-level').value;
+      let targetLevel = targetSel;
+      if (targetSel === '기타') {
+        const customVal = document.getElementById('stepup-target-custom')?.value.trim();
+        if (!customVal) {
+          alert('기타 목표 단계를 입력해주세요.');
+          document.getElementById('stepup-target-custom')?.focus();
+          return;
+        }
+        targetLevel = customVal;
+      }
       const date = document.getElementById('stepup-date').value;
       const category = document.getElementById('stepup-category').value;
       const summary = document.getElementById('stepup-summary').value.trim();
@@ -2179,6 +2344,11 @@
 
       document.getElementById('stepup-summary').value = '';
       document.getElementById('stepup-content').value = '';
+      if (document.getElementById('stepup-target-custom')) {
+        document.getElementById('stepup-target-custom').value = '';
+        document.getElementById('stepup-target-custom').style.display = 'none';
+      }
+      document.getElementById('stepup-target-level').value = '월/토 전도단';
       saveData();
     };
 
@@ -2212,7 +2382,6 @@
           const mem = (window.appData.members || []).find(m => m.name === filterVal);
           if (mem) {
             const curLv = mem.level || '입교';
-            const nextLv = curLv === '입교' ? '교등' : curLv === '교등' ? '총등' : '가구역';
             summaryBox.style.display = 'block';
             summaryBox.innerHTML = `
               <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
@@ -2220,7 +2389,6 @@
                   <strong style="font-size:13px;color:#1e3a8a">👤 ${mem.name}</strong>
                   <span style="font-size:11px;color:#64748b;margin-left:4px">(${mem.role || '성도'}, ${mem.location})</span>
                   <span class="badge ${getBadgeClass(curLv)}" style="margin-left:6px">${curLv}</span>
-                  <span style="font-size:11px;color:#2563eb;font-weight:700;margin-left:4px">➔ 목표 단계: ${nextLv}</span>
                 </div>
                 <div style="font-size:11px;font-weight:700;color:#1e40af">
                   누적 작성 기록: <strong>${logs.length}건</strong>
@@ -2252,9 +2420,8 @@
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
               <strong style="font-size:14px;color:#0f172a">👤 ${log.memberName}</strong>
               <span class="badge ${getBadgeClass(log.currentLevel)}">${log.currentLevel}</span>
-              <span style="font-size:10px;color:#94a3b8">➔</span>
-              <span class="badge ${getBadgeClass(log.targetLevel)}">${log.targetLevel}</span>
-              <span class="badge b-gray" style="font-weight:700;background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd">${log.category}</span>
+              <span class="badge" style="background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;font-weight:800">🎯 목표: ${log.targetLevel}</span>
+              <span class="badge b-gray" style="font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0">${log.category}</span>
               <span class="badge b-gray">📅 ${log.date}</span>
             </div>
             <button type="button" class="btn-danger" style="padding:2px 7px;font-size:10.5px" onclick="deleteStepupLog(${log.id})">삭제</button>
