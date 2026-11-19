@@ -320,34 +320,44 @@
   </header>
 
   <div class="container">
-    <!-- 상단 KPI 요약 -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-title">총 회원</div>
-        <div class="kpi-val"><span id="stat-total-members">0</span>명</div>
-        <div class="kpi-sub" id="stat-avg-age">평균 만나이: 0세</div>
+    <!-- 상단 핵심 요약 지표 (기본 접힘) -->
+    <div style="margin-bottom:12px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.02)">
+      <div onclick="toggleKpiGrid()" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;cursor:pointer;user-select:none">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px">📊</span>
+          <strong style="font-size:13px;color:#334155">구역 핵심 요약 지표</strong>
+          <span style="font-size:11px;color:#94a3b8">(총 회원 ~ 연간 달성률)</span>
+        </div>
+        <button type="button" class="btn-dark" id="btn-toggle-kpi" style="font-size:11px;padding:3px 9px">보기 ▾</button>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-title">모임 출석률</div>
-        <div class="kpi-val" style="color:var(--amber)"><span id="stat-attendance-rate">0</span>%</div>
-        <div class="kpi-sub" id="stat-attendance-count">누적 모임: 0회</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-title">주간 달성률</div>
-        <div class="kpi-val" style="color:var(--emerald)"><span id="stat-weekly-rate">0</span>%</div>
-        <div class="kpi-sub" id="stat-weekly-count">과제: 0건</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-title">월간 달성률</div>
-        <div class="kpi-val" style="color:var(--indigo)"><span id="stat-monthly-rate">0</span>%</div>
-        <div class="kpi-sub" id="stat-monthly-count">과제: 0건</div>
-      </div>
-      <div class="kpi-card" style="grid-column:span 2; @media(min-width:768px){grid-column:span 1;}">
-        <div class="kpi-title">연간 달성률</div>
-        <div class="kpi-val" style="color:var(--purple)"><span id="stat-yearly-rate">0</span>%</div>
-        <div class="kpi-sub" id="stat-yearly-count">과제: 0건</div>
-      </div>
-    </section>
+      <section id="kpi-grid-section" class="kpi-grid" style="display:none;padding:12px;margin-bottom:0;background:#f8fafc;border-top:1px solid var(--border)">
+        <div class="kpi-card">
+          <div class="kpi-title">총 회원</div>
+          <div class="kpi-val"><span id="stat-total-members">0</span>명</div>
+          <div class="kpi-sub" id="stat-avg-age">평균 만나이: 0세</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">모임 출석률</div>
+          <div class="kpi-val" style="color:var(--amber)"><span id="stat-attendance-rate">0</span>%</div>
+          <div class="kpi-sub" id="stat-attendance-count">누적 모임: 0회</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">주간 달성률</div>
+          <div class="kpi-val" style="color:var(--emerald)"><span id="stat-weekly-rate">0</span>%</div>
+          <div class="kpi-sub" id="stat-weekly-count">과제: 0건</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">월간 달성률</div>
+          <div class="kpi-val" style="color:var(--indigo)"><span id="stat-monthly-rate">0</span>%</div>
+          <div class="kpi-sub" id="stat-monthly-count">과제: 0건</div>
+        </div>
+        <div class="kpi-card" style="grid-column:span 2; @media(min-width:768px){grid-column:span 1;}">
+          <div class="kpi-title">연간 달성률</div>
+          <div class="kpi-val" style="color:var(--purple)"><span id="stat-yearly-rate">0</span>%</div>
+          <div class="kpi-sub" id="stat-yearly-count">과제: 0건</div>
+        </div>
+      </section>
+    </div>
 
     <!-- 1. 메인 달력 -->
     <section class="card" id="sec-calendar">
@@ -369,17 +379,17 @@
           <button type="button" class="btn-dark" onclick="changeMonth(1)">다음달 ▶</button>
         </div>
 
-        <!-- 슬림 & 컴팩트 새 일정 등록 UI -->
+        <!-- 슬림 & 컴팩트 새 일정 등록 UI (기본 접힘) -->
         <div class="cal-add-container">
           <div class="cal-add-header" onclick="toggleCalAddForm()">
             <div style="display:flex;align-items:center;gap:6px">
               <span class="cal-add-badge">➕</span>
               <strong style="font-size:12px;color:#334155">새 일정 등록</strong>
-              <span style="font-size:10px;color:#94a3b8;font-weight:500" id="cal-toggle-hint">간편 입력란</span>
+              <span style="font-size:10px;color:#94a3b8;font-weight:500" id="cal-toggle-hint">터치하여 간편 입력</span>
             </div>
-            <button type="button" class="btn-cal-toggle" id="btn-cal-toggle">접기 ▴</button>
+            <button type="button" class="btn-cal-toggle" id="btn-cal-toggle">일정 추가 ▾</button>
           </div>
-          <form id="cal-add-form" class="cal-add-form" onsubmit="addCalendarEvent(event)">
+          <form id="cal-add-form" class="cal-add-form collapsed" onsubmit="addCalendarEvent(event)">
             <div class="cal-form-grid">
               <div class="cal-fg-item">
                 <label>날짜</label>
@@ -484,7 +494,7 @@
             <button type="button" class="btn-emerald" onclick="exportOfferingImage(this)" style="font-size:11px;padding:5px 9px">📸 이미지 저장</button>
           </div>
         </div>
-        <p>십일조, 청년회비(2만), 체육회비(3천), 후생복지(1천), 건축헌금 현황을 체크합니다.</p>
+        <p>십일조, 청년회비(2만), 체육회비(3천), 후생복지(1천) 현황을 체크합니다.</p>
       </div>
       <div style="padding:12px">
         <div class="table-responsive">
@@ -497,7 +507,6 @@
                 <th>청년회비(2만)</th>
                 <th>체육회비(3천)</th>
                 <th>후생복지(1천)</th>
-                <th>건축헌금</th>
               </tr>
             </thead>
             <tbody id="offering-table-body"></tbody>
@@ -594,6 +603,7 @@
       <section id="sec-plans" style="scroll-margin-top:95px">
         <div class="view-switcher">
           <button id="view-btn-plan" class="view-btn active" onclick="switchMainRightView('plan')">📈 성장계획</button>
+          <button id="view-btn-stepup" class="view-btn" onclick="switchMainRightView('stepup')">🚀 단계향상 계획</button>
           <button id="view-btn-attendance" class="view-btn" onclick="switchMainRightView('attendance')">📅 모임출석부</button>
           <button id="view-btn-exam" class="view-btn" onclick="switchMainRightView('exam')">📝 월2회 시험</button>
           <button id="view-btn-training" class="view-btn" onclick="switchMainRightView('training')">🌱 사명자 양성</button>
@@ -661,6 +671,89 @@
               <strong style="color:#fbbf24">💡 자동 저장 및 동기화 분석 리포트:</strong>
               <p id="auto-insight-text" style="margin-top:4px;color:#e2e8f0"></p>
             </div>
+          </div>
+        </div>
+
+        <!-- 탭: 회원별 단계향상 계획 및 누적 기록 -->
+        <div id="right-view-stepup" class="hidden">
+          <div class="card" style="margin-bottom:0">
+            <div class="card-header">
+              <div>
+                <h2>🚀 회원별 단계향상 계획 & 누적 기록 피드</h2>
+                <p>회원별 단계(입교🌱 ➔ 교등🌿 ➔ 총등🌳 ➔ 가구역👑) 향상 과정과 심방·학습·피드백을 누적으로 계속 기록합니다.</p>
+              </div>
+            </div>
+
+            <!-- 회원 선택 및 현재 단계 요약 배너 -->
+            <div style="padding:10px 14px;background:#f8fafc;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <label style="font-size:12px;font-weight:700;color:#334155;white-space:nowrap">👤 대상 회원 필터:</label>
+              <select id="stepup-filter-member" onchange="renderStepupLogs()" style="flex:1;min-width:140px;font-weight:700"></select>
+            </div>
+
+            <!-- 선택된 회원 상세 현황 카드 -->
+            <div id="stepup-member-summary-box" style="padding:10px 14px;background:#eff6ff;border-bottom:1px solid #dbeafe;display:none"></div>
+
+            <!-- 누적 기록 작성 폼 -->
+            <div class="form-box">
+              <div class="form-title" style="display:flex;justify-content:space-between;align-items:center">
+                <span>➕ 단계향상 누적 기록 작성</span>
+                <span style="font-size:10px;color:#64748b;font-weight:500">원하는 만큼 계속 추가할 수 있습니다</span>
+              </div>
+              <form id="stepup-form" onsubmit="addStepupLog(event)">
+                <div class="row">
+                  <div class="col-4">
+                    <label style="font-size:11px;color:var(--muted)">회원 선택 *</label>
+                    <select id="stepup-member" required onchange="onStepupMemberChange()"></select>
+                  </div>
+                  <div class="col-4">
+                    <label style="font-size:11px;color:var(--muted)">목표 단계 *</label>
+                    <select id="stepup-target-level" required>
+                      <option value="교등">🌿 교등</option>
+                      <option value="총등">🌳 총등</option>
+                      <option value="가구역">👑 가구역</option>
+                      <option value="입교">🌱 입교</option>
+                    </select>
+                  </div>
+                  <div class="col-4">
+                    <label style="font-size:11px;color:var(--muted)">기록 날짜 *</label>
+                    <input type="date" id="stepup-date" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <label style="font-size:11px;color:var(--muted)">기록 구분 *</label>
+                    <select id="stepup-category" required>
+                      <option value="💬 심방/상담">💬 심방/상담</option>
+                      <option value="📖 말씀/학습">📖 말씀/학습</option>
+                      <option value="📝 과제/테스트">📝 과제/테스트</option>
+                      <option value="🙏 기도제목">🙏 기도제목</option>
+                      <option value="✨ 특이사항/변화">✨ 특이사항/변화</option>
+                      <option value="🎉 단계달성/진급">🎉 단계달성/진급</option>
+                    </select>
+                  </div>
+                  <div class="col-8">
+                    <label style="font-size:11px;color:var(--muted)">핵심 요약 키워드 (선택)</label>
+                    <input type="text" id="stepup-summary" placeholder="예: 요한계시록 2강 복습, 새 신자 면담 완료">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label style="font-size:11px;color:var(--muted)">누적 기록 상세 내용 *</label>
+                    <textarea id="stepup-content" required placeholder="상담 내용, 나눈 말씀, 과제 수행 여부, 단계 향상을 위한 피드백 등을 자유롭고 자세하게 적어주세요. 작성된 내용은 회원별 타임라인에 누적 저장됩니다." rows="3" style="width:100%;padding:8px 10px;font-size:13px;border-radius:8px;border:1px solid #cbd5e1;line-height:1.5"></textarea>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:flex-end">
+                  <button type="submit" class="btn-primary" style="padding:9px 18px;font-size:12px;font-weight:700">➕ 누적 기록 추가하기</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- 누적 기록 피드/타임라인 -->
+            <div style="padding:10px 14px 6px 14px;background:#fff;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)">
+              <strong style="font-size:13px;color:#1e293b">📜 단계향상 누적 기록 피드</strong>
+              <span id="stepup-total-count" style="font-size:11px;font-weight:700;color:var(--primary)">0건의 기록</span>
+            </div>
+            <div id="stepup-list" class="list-box" style="max-height:450px"></div>
           </div>
         </div>
 
@@ -1037,6 +1130,7 @@
       if (!Array.isArray(d.plans)) d.plans = [];
       if (!Array.isArray(d.meetings)) d.meetings = [];
       if (!Array.isArray(d.exams)) d.exams = [];
+      if (!Array.isArray(d.stepupLogs)) d.stepupLogs = [];
       if (!Array.isArray(d.events)) {
         d.events = [];
       } else {
@@ -1158,6 +1252,7 @@
       document.getElementById('ex-date').value = todayIso;
       document.getElementById('cal-date').value = todayIso;
       document.getElementById('tr-date').value = todayIso;
+      if (document.getElementById('stepup-date')) document.getElementById('stepup-date').value = todayIso;
       document.getElementById('sunday-month-picker').value = curYm;
       document.getElementById('offering-month-picker').value = curYm;
       renderAllUI();
@@ -1177,6 +1272,7 @@
       renderSundayAttendanceTable();
       renderOfferingTable();
       renderTrainings();
+      renderStepupLogs();
       updateDashboard();
     };
 
@@ -1410,20 +1506,18 @@
     function calcOfferingMonthStats(ym) {
       const members = window.appData.members || [];
       const off = window.appData.offerings || {};
-      const counts = { tithe:0, youth:0, sports:0, welfare:0, building:0, totalAmount:0 };
+      const counts = { tithe:0, youth:0, sports:0, welfare:0, totalAmount:0 };
 
       members.forEach(m => {
         const t = off[`${ym}_${m.id}_tithe`] || '';
         const y = off[`${ym}_${m.id}_youth`] || '';
         const s = off[`${ym}_${m.id}_sports`] || '';
         const w = off[`${ym}_${m.id}_welfare`] || '';
-        const b = off[`${ym}_${m.id}_building`] || '';
 
         if (t === 'O') counts.tithe++;
         if (y && y !== '미납' && y !== '납부전') { counts.youth++; counts.totalAmount += parseMoney(y) || 20000; }
         if (s && s !== '미납' && s !== '납부전') { counts.sports++; counts.totalAmount += parseMoney(s) || 3000; }
         if (w && w !== '미납' && w !== '납부전') { counts.welfare++; counts.totalAmount += parseMoney(w) || 1000; }
-        if (b && b !== '미납' && b !== 'X' && b !== '납부전') { counts.building++; counts.totalAmount += parseMoney(b); }
       });
       return { counts, memberCount: members.length };
     }
@@ -1441,7 +1535,6 @@
         const youth = offerings[`${ym}_${m.id}_youth`] || '';
         const sports = offerings[`${ym}_${m.id}_sports`] || '';
         const welfare = offerings[`${ym}_${m.id}_welfare`] || '';
-        const building = offerings[`${ym}_${m.id}_building`] || '';
 
         const isYouthPaid = youth !== '' && youth !== '미납' && youth !== '납부전';
         const isSportsPaid = sports !== '' && sports !== '미납' && sports !== '납부전';
@@ -1476,9 +1569,6 @@
                 <button type="button" class="paid-btn ${isWelfarePaid ? 'paid-on' : 'paid-off'}" onclick="togglePaidOffering('${m.id}', 'welfare', '1,000원')">${isWelfarePaid ? '완납' : '완납'}</button>
               </div>
             </td>
-            <td>
-              <input type="text" class="offering-input" value="${building}" onchange="updateOfferingField('${m.id}', 'building', this.value)" placeholder="0원" style="width:68px">
-            </td>
           </tr>
         `;
       }).join('');
@@ -1495,8 +1585,7 @@
         { label: '십일조 납부', count: curStats.counts.tithe, color: '#2563eb' },
         { label: '청년회비 (20,000원)', count: curStats.counts.youth, color: '#4f46e5' },
         { label: '체육회비 (3,000원)', count: curStats.counts.sports, color: '#059669' },
-        { label: '후생복지후원 (1,000원)', count: curStats.counts.welfare, color: '#d97706' },
-        { label: '건축헌금 참여', count: curStats.counts.building, color: '#7c3aed' }
+        { label: '후생복지후원 (1,000원)', count: curStats.counts.welfare, color: '#d97706' }
       ];
 
       document.getElementById('offering-chart-bars').innerHTML = offItems.map(item => {
@@ -1517,9 +1606,19 @@
 
       document.getElementById('offering-growth-text').innerHTML = `
         • <strong>${mNum}월 요약:</strong> 십일조 <strong>${curStats.counts.tithe}명</strong>, 청년회비 <strong>${curStats.counts.youth}명</strong>, 체육회비 <strong>${curStats.counts.sports}명</strong>, 후생복지 <strong>${curStats.counts.welfare}명</strong><br>
-        • <strong>${prevMNum}월 대비 증감:</strong> 십일조 <strong>${diffTithe >= 0 ? `+${diffTithe}명` : `${diffTithe}명`}</strong> / 회비·건축 누적액 <strong>${curStats.counts.totalAmount.toLocaleString()}원</strong> (${prevMNum}월 대비 <strong>${diffAmt >= 0 ? `+${diffAmt.toLocaleString()}원` : `${diffAmt.toLocaleString()}원`}</strong>)<br>
+        • <strong>${prevMNum}월 대비 증감:</strong> 십일조 <strong>${diffTithe >= 0 ? `+${diffTithe}명` : `${diffTithe}명`}</strong> / 회비 누적액 <strong>${curStats.counts.totalAmount.toLocaleString()}원</strong> (${prevMNum}월 대비 <strong>${diffAmt >= 0 ? `+${diffAmt.toLocaleString()}원` : `${diffAmt.toLocaleString()}원`}</strong>)<br>
         • <strong>특이사항:</strong> ${noteVal ? `<span style="color:#6ee7b7">${noteVal}</span>` : '<span style="color:#94a3b8">아래 입력란에 특이사항을 적어주세요.</span>'}
       `;
+    };
+
+    // --- 상단 KPI 지표 접기/펼치기 제어 ---
+    window.toggleKpiGrid = function() {
+      const el = document.getElementById('kpi-grid-section');
+      const btn = document.getElementById('btn-toggle-kpi');
+      if (!el) return;
+      const isHidden = el.style.display === 'none';
+      el.style.display = isHidden ? 'grid' : 'none';
+      if (btn) btn.textContent = isHidden ? '접기 ▴' : '보기 ▾';
     };
 
     // --- 캘린더 5대 일정 구분 및 색상 처리 ---
@@ -1896,11 +1995,14 @@
     };
 
     window.switchMainRightView = function(v) {
-      ['plan', 'attendance', 'exam', 'training'].forEach(k => {
-        document.getElementById(`right-view-${k}`).classList.toggle('hidden', k !== v);
-        document.getElementById(`view-btn-${k}`).classList.toggle('active', k === v);
+      ['plan', 'stepup', 'attendance', 'exam', 'training'].forEach(k => {
+        const el = document.getElementById(`right-view-${k}`);
+        if (el) el.classList.toggle('hidden', k !== v);
+        const btn = document.getElementById(`view-btn-${k}`);
+        if (btn) btn.classList.toggle('active', k === v);
       });
       if (v === 'training') renderTrainings();
+      if (v === 'stepup') renderStepupLogs();
     };
 
     window.getMemberMonthlyAttendanceRates = function(mId) {
@@ -1999,6 +2101,7 @@
               <span class="badge b-gray">${m.role || '직책없음'}</span>
             </div>
             <div style="display:flex;gap:4px">
+              <button class="btn-indigo" style="padding:4px 8px;font-size:11px" onclick="openStepupForMember('${m.name}')">🚀 단계향상</button>
               <button class="btn-dark" style="padding:4px 8px;font-size:11px" onclick="openEditMemberModal(${m.id})">수정</button>
               <button class="btn-danger" style="padding:4px 8px;font-size:11px" onclick="deleteMember(${m.id})">삭제</button>
             </div>
@@ -2016,6 +2119,159 @@
       document.getElementById('cal-member').innerHTML = opts;
       const memOnlyOpts = (window.appData.members || []).map(m => `<option value="${m.name}">👤 ${m.name}</option>`).join('');
       document.getElementById('tr-member').innerHTML = memOnlyOpts;
+
+      const stepupMem = document.getElementById('stepup-member');
+      if (stepupMem) {
+        const cur = stepupMem.value;
+        stepupMem.innerHTML = memOnlyOpts;
+        if (cur) stepupMem.value = cur;
+        onStepupMemberChange();
+      }
+      const stepupFilter = document.getElementById('stepup-filter-member');
+      if (stepupFilter) {
+        const curF = stepupFilter.value;
+        stepupFilter.innerHTML = `<option value="ALL">👥 전체 회원 누적 기록 보기</option>` + memOnlyOpts;
+        if (curF) stepupFilter.value = curF;
+      }
+    };
+
+    // --- 회원별 단계향상 계획 및 누적 기록 시스템 ---
+    window.onStepupMemberChange = function() {
+      const memberName = document.getElementById('stepup-member')?.value;
+      if (!memberName) return;
+      const mem = (window.appData.members || []).find(m => m.name === memberName);
+      if (!mem) return;
+      const curLv = mem.level || '입교';
+      const targetSelect = document.getElementById('stepup-target-level');
+      if (targetSelect) {
+        if (curLv === '입교') targetSelect.value = '교등';
+        else if (curLv === '교등') targetSelect.value = '총등';
+        else if (curLv === '총등') targetSelect.value = '가구역';
+        else targetSelect.value = '가구역';
+      }
+    };
+
+    window.addStepupLog = function(e) {
+      e.preventDefault();
+      const memberName = document.getElementById('stepup-member').value;
+      const targetLevel = document.getElementById('stepup-target-level').value;
+      const date = document.getElementById('stepup-date').value;
+      const category = document.getElementById('stepup-category').value;
+      const summary = document.getElementById('stepup-summary').value.trim();
+      const content = document.getElementById('stepup-content').value.trim();
+
+      const memberObj = (window.appData.members || []).find(m => m.name === memberName);
+      const currentLevel = memberObj ? memberObj.level : '입교';
+
+      if (!window.appData.stepupLogs) window.appData.stepupLogs = [];
+      window.appData.stepupLogs.unshift({
+        id: Date.now(),
+        memberId: memberObj ? memberObj.id : Date.now(),
+        memberName,
+        currentLevel,
+        targetLevel,
+        date,
+        category,
+        summary,
+        content,
+        createdAt: Date.now()
+      });
+
+      document.getElementById('stepup-summary').value = '';
+      document.getElementById('stepup-content').value = '';
+      saveData();
+    };
+
+    window.deleteStepupLog = function(id) {
+      if (!confirm('해당 단계향상 기록을 삭제하시겠습니까?')) return;
+      window.appData.stepupLogs = (window.appData.stepupLogs || []).filter(x => x.id !== id);
+      saveData();
+    };
+
+    window.renderStepupLogs = function() {
+      const filterEl = document.getElementById('stepup-filter-member');
+      const listEl = document.getElementById('stepup-list');
+      const countEl = document.getElementById('stepup-total-count');
+      const summaryBox = document.getElementById('stepup-member-summary-box');
+      if (!listEl) return;
+
+      const filterVal = filterEl ? filterEl.value : 'ALL';
+      let logs = window.appData.stepupLogs || [];
+
+      if (filterVal && filterVal !== 'ALL') {
+        logs = logs.filter(l => l.memberName === filterVal);
+      }
+
+      if (countEl) {
+        countEl.textContent = (filterVal && filterVal !== 'ALL') ? `${filterVal}: 총 ${logs.length}건 기록` : `전체 누적: ${logs.length}건`;
+      }
+
+      // 선택된 회원 요약 배너 업데이트
+      if (summaryBox) {
+        if (filterVal && filterVal !== 'ALL') {
+          const mem = (window.appData.members || []).find(m => m.name === filterVal);
+          if (mem) {
+            const curLv = mem.level || '입교';
+            const nextLv = curLv === '입교' ? '교등' : curLv === '교등' ? '총등' : '가구역';
+            summaryBox.style.display = 'block';
+            summaryBox.innerHTML = `
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+                <div>
+                  <strong style="font-size:13px;color:#1e3a8a">👤 ${mem.name}</strong>
+                  <span style="font-size:11px;color:#64748b;margin-left:4px">(${mem.role || '성도'}, ${mem.location})</span>
+                  <span class="badge ${getBadgeClass(curLv)}" style="margin-left:6px">${curLv}</span>
+                  <span style="font-size:11px;color:#2563eb;font-weight:700;margin-left:4px">➔ 목표 단계: ${nextLv}</span>
+                </div>
+                <div style="font-size:11px;font-weight:700;color:#1e40af">
+                  누적 작성 기록: <strong>${logs.length}건</strong>
+                </div>
+              </div>
+            `;
+          } else {
+            summaryBox.style.display = 'none';
+          }
+        } else {
+          summaryBox.style.display = 'none';
+        }
+      }
+
+      if (!logs.length) {
+        listEl.innerHTML = `
+          <div style="text-align:center;padding:28px 14px;color:var(--muted)">
+            <div style="font-size:24px;margin-bottom:6px">📝</div>
+            <strong style="font-size:13px;color:#334155">등록된 단계향상 기록이 없습니다.</strong>
+            <p style="font-size:11px;color:#94a3b8;margin-top:4px">위의 입력창에서 회원별 상담·학습·피드백을 누적으로 계속 작성해 보세요!</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = logs.map(log => `
+        <div class="item-card" style="border-left:4px solid var(--primary);box-shadow:0 1px 3px rgba(0,0,0,0.03)">
+          <div class="item-top">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <strong style="font-size:14px;color:#0f172a">👤 ${log.memberName}</strong>
+              <span class="badge ${getBadgeClass(log.currentLevel)}">${log.currentLevel}</span>
+              <span style="font-size:10px;color:#94a3b8">➔</span>
+              <span class="badge ${getBadgeClass(log.targetLevel)}">${log.targetLevel}</span>
+              <span class="badge b-gray" style="font-weight:700;background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd">${log.category}</span>
+              <span class="badge b-gray">📅 ${log.date}</span>
+            </div>
+            <button type="button" class="btn-danger" style="padding:2px 7px;font-size:10.5px" onclick="deleteStepupLog(${log.id})">삭제</button>
+          </div>
+          ${log.summary ? `<div style="font-size:12px;font-weight:800;color:#1e3a8a;margin-top:7px">📌 ${log.summary}</div>` : ''}
+          <div style="margin-top:6px;padding:9px 11px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:12.5px;line-height:1.65;color:#1e293b;white-space:pre-wrap">${log.content}</div>
+        </div>
+      `).join('');
+    };
+
+    window.openStepupForMember = function(name) {
+      switchMainRightView('stepup');
+      const filterSel = document.getElementById('stepup-filter-member');
+      if (filterSel) { filterSel.value = name; renderStepupLogs(); }
+      const inSel = document.getElementById('stepup-member');
+      if (inSel) { inSel.value = name; onStepupMemberChange(); }
+      scrollToSection('sec-plans');
     };
 
     // --- 성장 계획 ---
@@ -2327,14 +2583,13 @@
 
     window.exportOfferingCSV = function() {
       const ym = document.getElementById('offering-month-picker').value || '2026-10';
-      downloadCSV(`구역_헌금현황_${ym}`, ['이름','십일조','청년회비','체육회비','후생복지후원','건축헌금'],
+      downloadCSV(`구역_헌금현황_${ym}`, ['이름','십일조','청년회비','체육회비','후생복지후원'],
         (window.appData.members || []).map(m => [
           m.name,
           window.appData.offerings?.[`${ym}_${m.id}_tithe`] || '납부전',
           window.appData.offerings?.[`${ym}_${m.id}_youth`] || '납부전',
           window.appData.offerings?.[`${ym}_${m.id}_sports`] || '납부전',
-          window.appData.offerings?.[`${ym}_${m.id}_welfare`] || '납부전',
-          window.appData.offerings?.[`${ym}_${m.id}_building`] || '납부전'
+          window.appData.offerings?.[`${ym}_${m.id}_welfare`] || '납부전'
         ]));
     };
 
