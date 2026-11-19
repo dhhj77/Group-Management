@@ -15,10 +15,11 @@
       --emerald:#059669; --indigo:#4f46e5; --amber:#d97706; --purple:#7c3aed; --danger:#dc2626;
     }
     * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
-    html { scroll-behavior:smooth; }
+    html { scroll-behavior:smooth; overflow-x:hidden; max-width:100vw; }
     body {
       background:var(--bg); color:var(--text); line-height:1.5;
       padding-bottom:calc(76px + env(safe-area-inset-bottom));
+      overflow-x:hidden; max-width:100vw;
     }
     @media(min-width:768px) { body { padding-bottom:40px; } }
     
@@ -67,17 +68,19 @@
     .kpi-val { font-size:20px; font-weight:800; margin-top:2px; }
     .kpi-sub { font-size:10px; color:#94a3b8; margin-top:2px; }
 
-    .main-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+    .main-grid { display:grid; grid-template-columns:1fr; gap:16px; min-width:0; max-width:100%; }
+    .main-grid > * { min-width:0; max-width:100%; }
     @media(min-width:1024px) { .main-grid { grid-template-columns:5fr 7fr; gap:24px; } }
 
-    .card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.04); margin-bottom:16px; scroll-margin-top:95px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.04); margin-bottom:16px; scroll-margin-top:95px; max-width:100%; box-sizing:border-box; }
     .card-header { padding:14px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
     .card-header h2 { font-size:15px; font-weight:700; }
     .card-header p { font-size:11px; color:var(--muted); width:100%; margin-top:2px; }
 
-    .form-box { padding:14px; background:#f8fafc; border-bottom:1px solid var(--border); }
+    .form-box { padding:14px; background:#f8fafc; border-bottom:1px solid var(--border); max-width:100%; box-sizing:border-box; }
     .form-title { font-size:12px; font-weight:700; margin-bottom:8px; color:#334155; }
-    .row { display:grid; grid-template-columns:repeat(12,1fr); gap:8px; margin-bottom:8px; }
+    .row { display:grid; grid-template-columns:repeat(12,1fr); gap:8px; margin-bottom:8px; min-width:0; }
+    .row > * { min-width:0; }
     .col-2 { grid-column:span 6; } @media(min-width:640px){.col-2{grid-column:span 2;}}
     .col-3 { grid-column:span 6; } @media(min-width:640px){.col-3{grid-column:span 3;}}
     .col-4 { grid-column:span 12; } @media(min-width:640px){.col-4{grid-column:span 4;}}
@@ -88,12 +91,14 @@
     .col-9 { grid-column:span 12; } @media(min-width:640px){.col-9{grid-column:span 9;}}
     .col-12 { grid-column:span 12; }
 
-    input, select, textarea { width:100%; padding:9px 10px; border:1px solid #cbd5e1; border-radius:8px; font-size:16px; background:#fff; color:var(--text); }
+    input, select, textarea { width:100%; padding:9px 10px; border:1px solid #cbd5e1; border-radius:8px; font-size:16px; background:#fff; color:var(--text); box-sizing:border-box; max-width:100%; }
     @media(min-width:768px) { input, select, textarea { font-size:13px; padding:7px 10px; } }
 
-    .list-box { padding:12px; max-height:540px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; -webkit-overflow-scrolling:touch; }
-    .item-card { border:1px solid var(--border); border-radius:10px; padding:12px; background:#fff; }
-    .item-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; }
+    .list-box { padding:12px; max-height:540px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; -webkit-overflow-scrolling:touch; max-width:100%; box-sizing:border-box; }
+    @media(max-width:640px) { .list-box { padding:8px 6px; gap:8px; } }
+
+    .item-card { border:1px solid var(--border); border-radius:10px; padding:12px; background:#fff; max-width:100%; box-sizing:border-box; overflow:hidden; word-break:break-all; overflow-wrap:anywhere; }
+    .item-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; max-width:100%; }
     
     .badge { font-size:10px; font-weight:700; padding:2px 7px; border-radius:6px; display:inline-block; }
     .b-ipkyo { background:#d1fae5; color:#065f46; }
@@ -103,8 +108,44 @@
     .b-gray { background:#f1f5f9; color:#475569; }
     .b-red { background:#fee2e2; color:#991b1b; }
     
-    .note-container { margin-top:8px; display:flex; flex-direction:column; gap:4px; }
-    .note-tag { background:#f8fafc; border:1px solid #f1f5f9; padding:6px 8px; border-radius:6px; font-size:12px; color:#334155; }
+    .note-container { margin-top:8px; display:flex; flex-direction:column; gap:4px; max-width:100%; }
+    .note-tag { background:#f8fafc; border:1px solid #f1f5f9; padding:6px 8px; border-radius:6px; font-size:12px; color:#334155; word-break:break-all; overflow-wrap:anywhere; }
+
+    /* 회원 명부 카드 모바일 최적화 */
+    .member-item-card { padding:10px 12px; display:flex; flex-direction:column; gap:5px; max-width:100%; box-sizing:border-box; }
+    .member-card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:6px; flex-wrap:wrap; width:100%; }
+    .member-card-info { display:flex; align-items:center; gap:4px; flex-wrap:wrap; min-width:0; flex:1 1 auto; }
+    .member-card-name { font-size:14px; color:#0f172a; }
+    .member-card-age { font-size:11px; color:var(--muted); }
+    .member-card-actions { display:flex; gap:4px; align-items:center; flex-shrink:0; }
+    .btn-sm { padding:3px 7px !important; font-size:10.5px !important; border-radius:6px !important; }
+    .member-card-att { font-size:11px; color:var(--primary); font-weight:700; word-break:break-all; overflow-wrap:anywhere; line-height:1.4; }
+    .member-card-details { font-size:10.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:4px 8px; word-break:break-all; overflow-wrap:anywhere; line-height:1.4; }
+    @media(max-width:480px) {
+      .member-item-card { padding:8px 8px; }
+      .member-card-actions { width:100%; justify-content:flex-end; margin-top:3px; }
+    }
+
+    /* 단계향상 계획 카드 모바일 최적화 */
+    .stepup-card-item { padding:10px 12px; max-width:100%; box-sizing:border-box; overflow:hidden; border-left:4px solid var(--primary); box-shadow:0 1px 3px rgba(0,0,0,0.03); }
+    .stepup-top { display:flex; justify-content:space-between; align-items:flex-start; gap:6px; flex-wrap:wrap; max-width:100%; }
+    .stepup-meta { display:flex; align-items:center; gap:4px; flex-wrap:wrap; min-width:0; flex:1 1 200px; max-width:100%; }
+    .badge-stepup-target { background:#eef2ff !important; color:#3730a3 !important; border:1px solid #c7d2fe !important; font-weight:800 !important; max-width:100%; white-space:normal !important; word-break:break-all; overflow-wrap:anywhere; line-height:1.2; }
+    .badge-stepup-cat { background:#f0fdf4 !important; color:#166534 !important; border:1px solid #bbf7d0 !important; font-weight:700 !important; }
+    .stepup-summary { font-size:12px; font-weight:800; color:#1e3a8a; margin-top:6px; word-break:break-all; overflow-wrap:anywhere; }
+    .stepup-content { margin-top:6px; padding:8px 10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:12px; line-height:1.6; color:#1e293b; white-space:pre-wrap; word-break:break-all; overflow-wrap:anywhere; max-width:100%; box-sizing:border-box; }
+    @media(max-width:480px) {
+      .stepup-card-item { padding:8px 8px; }
+      .stepup-top button { align-self:flex-end; margin-top:2px; }
+    }
+
+    /* 헌금/회비 현황 요약 KPI 카드 */
+    .offering-kpi-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+    @media(min-width:768px) { .offering-kpi-grid { grid-template-columns:repeat(4,1fr); gap:10px; } }
+    .offering-kpi-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px; box-shadow:0 1px 2px rgba(0,0,0,0.03); display:flex; flex-direction:column; gap:2px; box-sizing:border-box; }
+    .offering-kpi-title { font-size:11px; font-weight:700; color:#64748b; }
+    .offering-kpi-status { font-size:11px; font-weight:600; color:#334155; }
+    .offering-kpi-amount { font-size:15px; font-weight:900; line-height:1.2; margin-top:2px; }
 
     .view-switcher { display:flex; gap:4px; background:#fff; padding:4px; border-radius:12px; border:1px solid var(--border); margin-bottom:14px; overflow-x:auto; }
     .view-btn { flex:1; justify-content:center; padding:10px 6px; font-size:12px; background:transparent; color:var(--muted); white-space:nowrap; }
@@ -626,9 +667,11 @@
         </div>
         <p>십일조, 청년회비(2만), 체육회비(3천), 후생복지(1천) 현황을 체크합니다.</p>
       </div>
-      <div style="padding:12px">
+      <!-- 회비별 현재 현황 & 총 합계 요약 패널 -->
+      <div id="offering-summary-cards" style="padding:10px 12px;background:#f8fafc;border-bottom:1px solid var(--border)"></div>
+      <div style="padding:10px 8px">
         <div class="table-responsive">
-          <table class="custom-table">
+          <table class="custom-table" id="offering-table">
             <thead>
               <tr>
                 <th>No.</th>
@@ -640,6 +683,7 @@
               </tr>
             </thead>
             <tbody id="offering-table-body"></tbody>
+            <tfoot id="offering-table-footer"></tfoot>
           </table>
         </div>
 
@@ -817,15 +861,15 @@
             <!-- 회원 선택 및 현재 단계 요약 배너 -->
             <div style="padding:10px 14px;background:#f8fafc;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap">
               <label style="font-size:12px;font-weight:700;color:#334155;white-space:nowrap">👤 대상 회원 필터:</label>
-              <select id="stepup-filter-member" onchange="renderStepupLogs()" style="flex:1;min-width:140px;font-weight:700"></select>
+              <select id="stepup-filter-member" onchange="renderStepupLogs()" style="flex:1 1 140px;min-width:120px;font-weight:700"></select>
             </div>
 
             <!-- 선택된 회원 상세 현황 카드 -->
-            <div id="stepup-member-summary-box" style="padding:10px 14px;background:#eff6ff;border-bottom:1px solid #dbeafe;display:none"></div>
+            <div id="stepup-member-summary-box" style="padding:10px 14px;background:#eff6ff;border-bottom:1px solid #dbeafe;display:none;word-break:break-all;overflow-wrap:anywhere"></div>
 
             <!-- 누적 기록 작성 폼 -->
             <div class="form-box">
-              <div class="form-title" style="display:flex;justify-content:space-between;align-items:center">
+              <div class="form-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px">
                 <span>➕ 단계향상 누적 기록 작성</span>
                 <span style="font-size:10px;color:#64748b;font-weight:500">원하는 만큼 계속 추가할 수 있습니다</span>
               </div>
@@ -837,8 +881,8 @@
                   </div>
                   <div class="col-4">
                     <label style="font-size:11px;color:var(--muted)">신앙 단계향상 목표 *</label>
-                    <div style="display:flex;gap:4px;align-items:center">
-                      <select id="stepup-target-level" required onchange="toggleStepupCustomTarget()" style="flex:1">
+                    <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+                      <select id="stepup-target-level" required onchange="toggleStepupCustomTarget()" style="flex:1 1 120px;min-width:120px">
                         <option value="월/토 전도단">🚶 월/토 전도단</option>
                         <option value="기도회">🙏 기도회</option>
                         <option value="구역예배">⛪ 구역예배</option>
@@ -847,7 +891,7 @@
                         <option value="개강천사">👼 개강천사</option>
                         <option value="기타">✏️ 기타 (직접 입력)</option>
                       </select>
-                      <input type="text" id="stepup-target-custom" placeholder="단계 직접입력" style="display:none;width:105px;padding:6px 8px;font-size:11px;border-radius:6px;border:1px solid #cbd5e1" />
+                      <input type="text" id="stepup-target-custom" placeholder="단계 직접입력" style="display:none;flex:1 1 100px;min-width:100px;padding:6px 8px;font-size:11px;border-radius:6px;border:1px solid #cbd5e1" />
                     </div>
                   </div>
                   <div class="col-4">
@@ -1642,7 +1686,8 @@
     function calcOfferingMonthStats(ym) {
       const members = window.appData.members || [];
       const off = window.appData.offerings || {};
-      const counts = { tithe:0, youth:0, sports:0, welfare:0, totalAmount:0 };
+      const counts = { tithe:0, youth:0, sports:0, welfare:0 };
+      const amounts = { youth:0, sports:0, welfare:0, total:0 };
 
       members.forEach(m => {
         const t = off[`${ym}_${m.id}_tithe`] || '';
@@ -1651,11 +1696,27 @@
         const w = off[`${ym}_${m.id}_welfare`] || '';
 
         if (t === 'O') counts.tithe++;
-        if (y && y !== '미납' && y !== '납부전') { counts.youth++; counts.totalAmount += parseMoney(y) || 20000; }
-        if (s && s !== '미납' && s !== '납부전') { counts.sports++; counts.totalAmount += parseMoney(s) || 3000; }
-        if (w && w !== '미납' && w !== '납부전') { counts.welfare++; counts.totalAmount += parseMoney(w) || 1000; }
+        if (y && y !== '미납' && y !== '납부전') {
+          counts.youth++;
+          const val = parseMoney(y) || 20000;
+          amounts.youth += val;
+          amounts.total += val;
+        }
+        if (s && s !== '미납' && s !== '납부전') {
+          counts.sports++;
+          const val = parseMoney(s) || 3000;
+          amounts.sports += val;
+          amounts.total += val;
+        }
+        if (w && w !== '미납' && w !== '납부전') {
+          counts.welfare++;
+          const val = parseMoney(w) || 1000;
+          amounts.welfare += val;
+          amounts.total += val;
+        }
       });
-      return { counts, memberCount: members.length };
+      counts.totalAmount = amounts.total;
+      return { counts, amounts, memberCount: members.length };
     }
 
     window.renderOfferingTable = function() {
@@ -1716,6 +1777,59 @@
       const prevMNum = Number(prevYm.split('-')[1]);
       const totalM = Math.max(curStats.memberCount, 1);
 
+      // 1) 회비별 현재 현황 & 총 합계 요약 카드 렌더링
+      const summaryCards = document.getElementById('offering-summary-cards');
+      if (summaryCards) {
+        summaryCards.innerHTML = `
+          <div class="offering-kpi-grid">
+            <div class="offering-kpi-card" style="border-left:4px solid #4f46e5">
+              <div class="offering-kpi-title">💳 청년회비 (2만원)</div>
+              <div class="offering-kpi-status">완납 <strong>${curStats.counts.youth}</strong>/${curStats.memberCount}명 (${Math.round((curStats.counts.youth/totalM)*100)}%)</div>
+              <div class="offering-kpi-amount" style="color:#4f46e5">${curStats.amounts.youth.toLocaleString()}원</div>
+            </div>
+            <div class="offering-kpi-card" style="border-left:4px solid #059669">
+              <div class="offering-kpi-title">⚽ 체육회비 (3천원)</div>
+              <div class="offering-kpi-status">완납 <strong>${curStats.counts.sports}</strong>/${curStats.memberCount}명 (${Math.round((curStats.counts.sports/totalM)*100)}%)</div>
+              <div class="offering-kpi-amount" style="color:#059669">${curStats.amounts.sports.toLocaleString()}원</div>
+            </div>
+            <div class="offering-kpi-card" style="border-left:4px solid #d97706">
+              <div class="offering-kpi-title">🩺 후생복지 (1천원)</div>
+              <div class="offering-kpi-status">완납 <strong>${curStats.counts.welfare}</strong>/${curStats.memberCount}명 (${Math.round((curStats.counts.welfare/totalM)*100)}%)</div>
+              <div class="offering-kpi-amount" style="color:#d97706">${curStats.amounts.welfare.toLocaleString()}원</div>
+            </div>
+            <div class="offering-kpi-card" style="border-left:4px solid #dc2626;background:#fef2f2">
+              <div class="offering-kpi-title" style="color:#991b1b">💰 3대 회비 총합계</div>
+              <div class="offering-kpi-status" style="color:#b91c1c">총 <strong>${curStats.counts.youth + curStats.counts.sports + curStats.counts.welfare}</strong>건 완납</div>
+              <div class="offering-kpi-amount" style="color:#dc2626">${curStats.amounts.total.toLocaleString()}원</div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 2) 테이블 푸터 (합계 행)
+      const tfoot = document.getElementById('offering-table-footer');
+      if (tfoot) {
+        tfoot.innerHTML = `
+          <tr style="background:#f1f5f9;font-weight:800;border-top:2px solid #cbd5e1">
+            <td style="background:#e2e8f0;font-weight:800">합계</td>
+            <td style="background:#e2e8f0;font-weight:800">총 ${curStats.memberCount}명</td>
+            <td><span style="color:#059669">완납 ${curStats.counts.tithe}명</span></td>
+            <td>
+              <div style="font-size:9.5px;color:#4f46e5;font-weight:800">${curStats.counts.youth}명 완납</div>
+              <div style="font-size:11px;color:#1e1b4b;font-weight:900">${curStats.amounts.youth.toLocaleString()}원</div>
+            </td>
+            <td>
+              <div style="font-size:9.5px;color:#059669;font-weight:800">${curStats.counts.sports}명 완납</div>
+              <div style="font-size:11px;color:#064e3b;font-weight:900">${curStats.amounts.sports.toLocaleString()}원</div>
+            </td>
+            <td>
+              <div style="font-size:9.5px;color:#d97706;font-weight:800">${curStats.counts.welfare}명 완납</div>
+              <div style="font-size:11px;color:#78350f;font-weight:900">${curStats.amounts.welfare.toLocaleString()}원</div>
+            </td>
+          </tr>
+        `;
+      }
+
       document.getElementById('offering-chart-title').textContent = `📊 ${mNum}월 헌금/회비 완납 현황 (${curStats.memberCount}명 기준)`;
       const offItems = [
         { label: '십일조 납부', count: curStats.counts.tithe, color: '#2563eb' },
@@ -1741,8 +1855,8 @@
       if (noteInput) noteInput.value = noteVal;
 
       document.getElementById('offering-growth-text').innerHTML = `
-        • <strong>${mNum}월 요약:</strong> 십일조 <strong>${curStats.counts.tithe}명</strong>, 청년회비 <strong>${curStats.counts.youth}명</strong>, 체육회비 <strong>${curStats.counts.sports}명</strong>, 후생복지 <strong>${curStats.counts.welfare}명</strong><br>
-        • <strong>${prevMNum}월 대비 증감:</strong> 십일조 <strong>${diffTithe >= 0 ? `+${diffTithe}명` : `${diffTithe}명`}</strong> / 회비 누적액 <strong>${curStats.counts.totalAmount.toLocaleString()}원</strong> (${prevMNum}월 대비 <strong>${diffAmt >= 0 ? `+${diffAmt.toLocaleString()}원` : `${diffAmt.toLocaleString()}원`}</strong>)<br>
+        • <strong>${mNum}월 완납 현황:</strong> 십일조 <strong>${curStats.counts.tithe}명</strong>, 청년회비 <strong>${curStats.counts.youth}명 (${curStats.amounts.youth.toLocaleString()}원)</strong>, 체육회비 <strong>${curStats.counts.sports}명 (${curStats.amounts.sports.toLocaleString()}원)</strong>, 후생복지 <strong>${curStats.counts.welfare}명 (${curStats.amounts.welfare.toLocaleString()}원)</strong><br>
+        • <strong>3대 회비 총합계:</strong> <strong>${curStats.amounts.total.toLocaleString()}원</strong> (${prevMNum}월 대비 <strong>${diffAmt >= 0 ? `+${diffAmt.toLocaleString()}원` : `${diffAmt.toLocaleString()}원`}</strong>)<br>
         • <strong>특이사항:</strong> ${noteVal ? `<span style="color:#6ee7b7">${noteVal}</span>` : '<span style="color:#94a3b8">아래 입력란에 특이사항을 적어주세요.</span>'}
       `;
     };
@@ -2239,23 +2353,27 @@
       });
       document.getElementById('member-badge-count').textContent = `${(window.appData.members || []).length}명`;
       document.getElementById('member-list').innerHTML = filtered.map(m => `
-        <div class="item-card">
-          <div class="item-top">
-            <div>
-              <strong style="font-size:14px">${m.name}</strong>
-              <span style="font-size:11px;color:var(--muted)">(만 ${calculateInternationalAge(m.birth)}세)</span>
+        <div class="item-card member-item-card">
+          <div class="member-card-header">
+            <div class="member-card-info">
+              <strong class="member-card-name">${m.name}</strong>
+              <span class="member-card-age">(만 ${calculateInternationalAge(m.birth)}세)</span>
               <span class="badge ${getBadgeClass(m.level)}">${m.level}</span>
               <span class="badge b-gray">${m.role || '직책없음'}</span>
             </div>
-            <div style="display:flex;gap:4px">
-              <button class="btn-indigo" style="padding:4px 8px;font-size:11px" onclick="openStepupForMember('${m.name}')">🚀 단계향상</button>
-              <button class="btn-dark" style="padding:4px 8px;font-size:11px" onclick="openEditMemberModal(${m.id})">수정</button>
-              <button class="btn-danger" style="padding:4px 8px;font-size:11px" onclick="deleteMember(${m.id})">삭제</button>
+            <div class="member-card-actions">
+              <button type="button" class="btn-indigo btn-sm" onclick="openStepupForMember('${m.name}')">🚀 단계향상</button>
+              <button type="button" class="btn-dark btn-sm" onclick="openEditMemberModal(${m.id})">수정</button>
+              <button type="button" class="btn-danger btn-sm" onclick="deleteMember(${m.id})">삭제</button>
             </div>
           </div>
-          <div style="font-size:11px;color:var(--primary);margin-top:5px;font-weight:700">📅 모임출석: ${getMemberMonthlyAttendanceRates(m.id)}</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px">📞 ${m.phone} | 🎂 ${m.birth} | 📍 ${m.location}</div>
-          <div class="note-container">${(m.notes || []).map(n => `<div class="note-tag">📌 ${n}</div>`).join('')}</div>
+          <div class="member-card-att">📅 모임출석: ${getMemberMonthlyAttendanceRates(m.id)}</div>
+          <div class="member-card-details">
+            <span>📞 ${m.phone || '-'}</span>
+            <span>🎂 ${m.birth || '-'}</span>
+            <span>📍 ${m.location || '-'}</span>
+          </div>
+          ${(m.notes && m.notes.length) ? `<div class="note-container">${m.notes.map(n => `<div class="note-tag">📌 ${n}</div>`).join('')}</div>` : ''}
         </div>
       `).join('');
     };
@@ -2415,19 +2533,19 @@
       }
 
       listEl.innerHTML = logs.map(log => `
-        <div class="item-card" style="border-left:4px solid var(--primary);box-shadow:0 1px 3px rgba(0,0,0,0.03)">
-          <div class="item-top">
-            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-              <strong style="font-size:14px;color:#0f172a">👤 ${log.memberName}</strong>
+        <div class="item-card stepup-card-item">
+          <div class="stepup-top">
+            <div class="stepup-meta">
+              <strong style="font-size:13.5px;color:#0f172a">👤 ${log.memberName}</strong>
               <span class="badge ${getBadgeClass(log.currentLevel)}">${log.currentLevel}</span>
-              <span class="badge" style="background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;font-weight:800">🎯 목표: ${log.targetLevel}</span>
-              <span class="badge b-gray" style="font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0">${log.category}</span>
+              <span class="badge badge-stepup-target">🎯 목표: ${log.targetLevel}</span>
+              <span class="badge badge-stepup-cat">${log.category}</span>
               <span class="badge b-gray">📅 ${log.date}</span>
             </div>
-            <button type="button" class="btn-danger" style="padding:2px 7px;font-size:10.5px" onclick="deleteStepupLog(${log.id})">삭제</button>
+            <button type="button" class="btn-danger btn-sm" onclick="deleteStepupLog(${log.id})">삭제</button>
           </div>
-          ${log.summary ? `<div style="font-size:12px;font-weight:800;color:#1e3a8a;margin-top:7px">📌 ${log.summary}</div>` : ''}
-          <div style="margin-top:6px;padding:9px 11px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:12.5px;line-height:1.65;color:#1e293b;white-space:pre-wrap">${log.content}</div>
+          ${log.summary ? `<div class="stepup-summary">📌 ${log.summary}</div>` : ''}
+          <div class="stepup-content">${log.content}</div>
         </div>
       `).join('');
     };
@@ -2750,14 +2868,29 @@
 
     window.exportOfferingCSV = function() {
       const ym = document.getElementById('offering-month-picker').value || '2026-10';
-      downloadCSV(`구역_헌금현황_${ym}`, ['이름','십일조','청년회비','체육회비','후생복지후원'],
-        (window.appData.members || []).map(m => [
-          m.name,
-          window.appData.offerings?.[`${ym}_${m.id}_tithe`] || '납부전',
-          window.appData.offerings?.[`${ym}_${m.id}_youth`] || '납부전',
-          window.appData.offerings?.[`${ym}_${m.id}_sports`] || '납부전',
-          window.appData.offerings?.[`${ym}_${m.id}_welfare`] || '납부전'
-        ]));
+      const stats = calcOfferingMonthStats(ym);
+      const rows = (window.appData.members || []).map(m => [
+        m.name,
+        window.appData.offerings?.[`${ym}_${m.id}_tithe`] || '납부전',
+        window.appData.offerings?.[`${ym}_${m.id}_youth`] || '납부전',
+        window.appData.offerings?.[`${ym}_${m.id}_sports`] || '납부전',
+        window.appData.offerings?.[`${ym}_${m.id}_welfare`] || '납부전'
+      ]);
+      rows.push([
+        `합계 (총 ${stats.memberCount}명)`,
+        `완납 ${stats.counts.tithe}명`,
+        `${stats.amounts.youth.toLocaleString()}원 (${stats.counts.youth}명 완납)`,
+        `${stats.amounts.sports.toLocaleString()}원 (${stats.counts.sports}명 완납)`,
+        `${stats.amounts.welfare.toLocaleString()}원 (${stats.counts.welfare}명 완납)`
+      ]);
+      rows.push([
+        '3대 회비 총합계',
+        '',
+        `${stats.amounts.total.toLocaleString()}원 (총 ${stats.counts.youth + stats.counts.sports + stats.counts.welfare}건 완납)`,
+        '',
+        ''
+      ]);
+      downloadCSV(`구역_헌금현황_${ym}`, ['이름','십일조','청년회비','체육회비','후생복지후원'], rows);
     };
 
     window.exportExamsCSV = function() {
